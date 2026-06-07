@@ -1,0 +1,1498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Family Picks 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:   #09152a;
+  --navy2:  #0f1f3d;
+  --navy3:  #162440;
+  --card:   #131f35;
+  --card2:  #1a2845;
+  --red:    #c8102e;
+  --red2:   #a50d25;
+  --gold:   #f5a623;
+  --gold2:  #d4891a;
+  --green:  #16a34a;
+  --green2: #15803d;
+  --white:  #f0f4f8;
+  --g1:     #cbd5e1;
+  --g2:     #94a3b8;
+  --g3:     #64748b;
+  --g4:     #334155;
+  --g5:     #1e293b;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;overflow:hidden;}
+body{
+  background:var(--navy);
+  font-family:'Barlow',sans-serif;
+  color:var(--white);
+  display:flex;
+  flex-direction:column;
+  position:relative;
+  overflow:hidden;
+}
+
+/* ── NOISE TEXTURE OVERLAY ── */
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:0;opacity:0.4;
+}
+
+/* ── HEADER ── */
+.hdr{
+  background:linear-gradient(180deg,var(--navy2) 0%,var(--navy3) 100%);
+  border-bottom:2px solid var(--red);
+  padding:12px 18px 0;
+  flex-shrink:0;
+  position:relative;z-index:10;
+  box-shadow:0 4px 24px rgba(0,0,0,0.6);
+}
+.hdr-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.logo{
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:900;font-size:21px;letter-spacing:1.5px;
+  text-transform:uppercase;
+}
+.logo em{color:var(--red);font-style:normal;}
+.user-pill{
+  display:flex;align-items:center;gap:7px;
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:20px;padding:5px 12px 5px 8px;
+  cursor:pointer;transition:background 0.15s;
+}
+.user-pill:active{background:rgba(255,255,255,0.1);}
+.user-avatar{
+  width:22px;height:22px;border-radius:50%;
+  background:linear-gradient(135deg,var(--red),var(--gold));
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:800;font-size:11px;color:white;
+}
+.user-name{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;letter-spacing:0.5px;}
+
+/* ── TAB NAV ── */
+.tabs{display:flex;gap:0;}
+.tab{
+  flex:1;background:none;border:none;
+  border-bottom:3px solid transparent;
+  color:var(--g3);
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:700;font-size:13px;letter-spacing:1px;
+  padding:9px 4px;cursor:pointer;
+  text-transform:uppercase;transition:all 0.2s;
+}
+.tab.on{color:var(--gold);border-bottom-color:var(--gold);}
+
+/* ── SCROLLABLE CONTENT ── */
+.content{flex:1;overflow-y:auto;overflow-x:hidden;position:relative;z-index:1;-webkit-overflow-scrolling:touch;}
+.panel{display:none;padding:14px 14px 100px;}
+.panel.on{display:block;}
+
+/* ── REGISTRATION SCREEN ── */
+.reg-screen{
+  position:fixed;inset:0;z-index:200;
+  background:var(--navy);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:24px;
+}
+.reg-screen.hidden{display:none;}
+.reg-logo{
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:900;font-size:32px;letter-spacing:2px;
+  text-align:center;margin-bottom:4px;
+}
+.reg-logo em{color:var(--red);font-style:normal;}
+.reg-sub{font-size:14px;color:var(--g2);margin-bottom:32px;text-align:center;letter-spacing:0.3px;}
+.reg-label{
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:700;font-size:13px;letter-spacing:2px;
+  color:var(--g2);margin-bottom:12px;text-align:center;
+  text-transform:uppercase;
+}
+.name-grid{
+  display:grid;grid-template-columns:1fr 1fr 1fr;
+  gap:10px;width:100%;max-width:340px;margin-bottom:8px;
+}
+.name-btn{
+  background:var(--card);
+  border:2px solid rgba(255,255,255,0.08);
+  border-radius:12px;
+  color:var(--white);
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:800;font-size:18px;
+  padding:16px 8px;
+  cursor:pointer;text-align:center;
+  transition:all 0.15s;letter-spacing:0.3px;
+}
+.name-btn:active{transform:scale(0.95);background:var(--card2);}
+.name-btn.sel{
+  background:linear-gradient(135deg,var(--red),var(--red2));
+  border-color:var(--red);
+  box-shadow:0 4px 16px rgba(200,16,46,0.35);
+}
+
+/* ── WEEK STATUS BANNER ── */
+.week-banner{
+  background:linear-gradient(135deg,var(--card2),var(--card));
+  border:1px solid rgba(255,255,255,0.07);
+  border-radius:14px;
+  padding:14px 16px;
+  margin-bottom:12px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.wb-left{}
+.wb-week{
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:900;font-size:22px;letter-spacing:0.5px;
+}
+.wb-status{font-size:12px;color:var(--g2);margin-top:2px;}
+.wb-status .dot{
+  display:inline-block;width:6px;height:6px;
+  border-radius:50%;margin-right:5px;
+  background:var(--green);
+  animation:pulse 2s infinite;
+}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
+.picks-btn{
+  background:linear-gradient(135deg,var(--red),var(--red2));
+  border:none;border-radius:11px;
+  color:white;
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:800;font-size:15px;letter-spacing:1px;
+  padding:11px 20px;cursor:pointer;
+  box-shadow:0 3px 12px rgba(200,16,46,0.35);
+  transition:all 0.15s;
+}
+.picks-btn:active{transform:scale(0.97);}
+.picks-btn.done{
+  background:linear-gradient(135deg,var(--green),var(--green2));
+  box-shadow:0 3px 12px rgba(21,128,61,0.35);
+}
+
+/* ── STANDINGS ── */
+.section-title{
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:800;font-size:16px;letter-spacing:1px;
+  color:var(--g1);text-transform:uppercase;
+  margin-bottom:10px;margin-top:4px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.section-title span{font-size:11px;color:var(--g3);font-weight:600;letter-spacing:0.5px;}
+
+.s-card{
+  background:var(--card);
+  border:1.5px solid rgba(255,255,255,0.06);
+  border-radius:14px;
+  padding:13px 14px;
+  margin-bottom:9px;
+  display:flex;align-items:center;gap:12px;
+  animation:fadeUp 0.4s ease both;
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+.s-card.me{border-color:rgba(245,166,35,0.4);background:linear-gradient(135deg,#1a2233,#1c2a1a);}
+.s-card.p1{border-color:rgba(245,166,35,0.6);}
+.s-card.p2{border-color:rgba(148,163,184,0.4);}
+.s-card.p3{border-color:rgba(205,127,50,0.4);}
+
+.s-rank{
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:900;font-size:24px;min-width:30px;text-align:center;
+}
+.rank-1{color:var(--gold);}
+.rank-2{color:#94a3b8;}
+.rank-3{color:#cd7f32;}
+.rank-n{color:var(--g4);font-size:18px;}
+
+.s-info{flex:1;min-width:0;}
+.s-name{
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:800;font-size:19px;letter-spacing:0.3px;
+  display:flex;align-items:center;gap:6px;
+}
+.you-tag{
+  font-size:10px;font-weight:700;letter-spacing:1px;
+  background:rgba(245,166,35,0.15);color:var(--gold);
+  border:1px solid rgba(245,166,35,0.3);
+  border-radius:8px;padding:1px 6px;font-family:'Barlow Condensed',sans-serif;
+}
+.s-meta{display:flex;gap:8px;align-items:center;margin-top:3px;}
+.s-stat{font-size:11px;color:var(--g2);}
+.s-stat strong{color:var(--g1);font-weight:600;}
+.streak{
+  font-size:10px;font-weight:700;font-family:'Barlow Condensed',sans-serif;
+  padding:2px 7px;border-radius:8px;letter-spacing:0.5px;
+}
+.hot{background:rgba(245,166,35,0.15);color:var(--gold);border:1px solid rgba(245,166,35,0.25);}
+.cold{background:rgba(99,102,241,0.12);color:#a5b4fc;border:1px solid rgba(99,102,241,0.2);}
+.neu{background:rgba(100,116,139,0.15);color:var(--g2);border:1px solid rgba(100,116,139,0.2);}
+
+.s-right{text-align:right;}
+.s-wins{
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:900;font-size:30px;line-height:1;
+}
+.s-pct{font-size:11px;color:var(--gold);font-weight:600;}
+.s-wklabel{font-size:10px;color:var(--g3);text-transform:uppercase;letter-spacing:0.5px;}
+
+.wk-bars{display:flex;gap:2px;margin-top:5px;}
+.wb{flex:1;height:3px;border-radius:2px;background:rgba(255,255,255,0.06);}
+.wb.g{background:var(--green);}
+.wb.y{background:var(--gold);}
+.wb.r{background:var(--red);}
+
+/* ── WEEKLY PANEL ── */
+.wk-chips{
+  display:flex;gap:6px;overflow-x:auto;
+  padding-bottom:10px;margin-bottom:12px;
+  scrollbar-width:none;
+}
+.wk-chips::-webkit-scrollbar{display:none;}
+.chip{
+  flex-shrink:0;
+  background:var(--card);border:1.5px solid rgba(255,255,255,0.08);
+  border-radius:20px;color:var(--g2);
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:700;font-size:13px;letter-spacing:0.5px;
+  padding:6px 14px;cursor:pointer;transition:all 0.15s;
+}
+.chip.on{background:var(--red);border-color:var(--red);color:white;}
+.chip.open{border-color:rgba(245,166,35,0.4);color:var(--gold);}
+
+.grid-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+.picks-grid{min-width:600px;border-radius:12px;overflow:hidden;}
+.grid-hdr{
+  display:grid;
+  grid-template-columns:110px repeat(9,1fr);
+  gap:2px;background:var(--navy);padding:2px;
+}
+.gh-game{
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:700;font-size:11px;color:var(--g3);
+  padding:6px 6px;letter-spacing:0.5px;
+}
+.gh-player{
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:800;font-size:11px;color:var(--gold);
+  text-align:center;padding:6px 2px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.gh-player.me-col{color:var(--white);background:rgba(245,166,35,0.08);border-radius:4px;}
+
+.grid-row{
+  display:grid;
+  grid-template-columns:110px repeat(9,1fr);
+  gap:2px;background:var(--navy);padding:0 2px 2px;
+}
+.gr-game{
+  background:var(--card);
+  font-size:10px;color:var(--g2);
+  display:flex;align-items:center;
+  padding:6px 6px;border-radius:0;
+  line-height:1.2;
+}
+.gr-pick{
+  background:var(--card);
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:700;font-size:11px;
+  display:flex;align-items:center;justify-content:center;
+  padding:6px 2px;text-align:center;min-height:30px;
+  transition:background 0.2s;
+}
+.gr-pick.win{background:rgba(22,163,74,0.22);color:#4ade80;border:1px solid rgba(22,163,74,0.25);}
+.gr-pick.loss{background:rgba(200,16,46,0.18);color:#f87171;border:1px solid rgba(200,16,46,0.2);}
+.gr-pick.locked{color:var(--g4);font-size:16px;}
+.gr-pick.pending{background:rgba(245,166,35,0.08);color:rgba(245,166,35,0.5);font-size:10px;}
+
+.grid-total{
+  display:grid;
+  grid-template-columns:110px repeat(9,1fr);
+  gap:2px;background:var(--navy);padding:0 2px 2px;
+  border-top:2px solid rgba(255,255,255,0.06);
+}
+.gt-label{
+  background:var(--card2);
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:800;font-size:13px;color:var(--gold);
+  display:flex;align-items:center;padding-left:8px;
+}
+.gt-val{
+  background:var(--card2);
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:900;font-size:16px;color:var(--white);
+  display:flex;align-items:center;justify-content:center;
+  padding:8px 2px;
+}
+.gt-val.best{color:var(--gold);}
+
+/* ── PICK ENTRY ── */
+.pick-panel{
+  position:fixed;inset:0;z-index:150;
+  background:var(--navy);
+  display:flex;flex-direction:column;
+  transform:translateY(100%);
+  transition:transform 0.35s cubic-bezier(0.32,0.72,0,1);
+}
+.pick-panel.open{transform:translateY(0);}
+
+.pick-hdr{
+  background:linear-gradient(180deg,var(--navy2),var(--navy3));
+  border-bottom:2px solid var(--red);
+  padding:14px 18px 12px;
+  flex-shrink:0;
+}
+.pick-hdr-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.pick-title{
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:900;font-size:20px;letter-spacing:1px;
+}
+.close-btn{
+  background:rgba(255,255,255,0.08);border:none;
+  border-radius:20px;color:var(--g2);
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:700;font-size:13px;letter-spacing:0.5px;
+  padding:6px 14px;cursor:pointer;
+}
+
+.prog-wrap{margin-top:2px;}
+.prog-row{display:flex;justify-content:space-between;font-size:11px;color:var(--g3);margin-bottom:4px;font-family:'Barlow Condensed',sans-serif;font-weight:600;letter-spacing:0.3px;}
+.prog-bar{height:3px;background:rgba(255,255,255,0.08);border-radius:2px;overflow:hidden;}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--red),var(--gold));border-radius:2px;transition:width 0.4s ease;width:0%;}
+
+.games-scroll{flex:1;overflow-y:auto;padding:12px 14px 120px;-webkit-overflow-scrolling:touch;}
+
+.day-sep{
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:700;font-size:11px;letter-spacing:2px;
+  color:var(--g3);text-transform:uppercase;
+  padding:10px 2px 4px;
+  border-top:1px solid rgba(255,255,255,0.05);
+  margin-top:6px;
+}
+.day-sep:first-child{border-top:none;margin-top:0;padding-top:2px;}
+
+.game-card{
+  background:var(--card);
+  border:1.5px solid rgba(255,255,255,0.06);
+  border-radius:13px;
+  margin-bottom:8px;
+  overflow:hidden;
+  transition:border-color 0.2s;
+}
+.game-card.picked{border-color:rgba(245,166,35,0.5);}
+.game-card.locked-card{opacity:0.55;}
+
+.gc-top{
+  background:rgba(255,255,255,0.03);
+  padding:6px 13px;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.gc-num{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;color:var(--g3);letter-spacing:1.5px;}
+.gc-time{font-size:10px;color:var(--gold);font-family:'Barlow Condensed',sans-serif;font-weight:600;}
+.gc-lock{font-size:10px;color:var(--red);font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:0.5px;}
+
+.gc-teams{
+  display:grid;grid-template-columns:1fr auto 1fr;
+  align-items:center;gap:6px;padding:10px 10px 8px;
+}
+.team-btn{
+  background:rgba(255,255,255,0.04);
+  border:2px solid rgba(255,255,255,0.08);
+  border-radius:10px;padding:11px 6px;
+  cursor:pointer;text-align:center;
+  transition:all 0.15s ease;user-select:none;
+}
+.team-btn:active{transform:scale(0.96);}
+.team-btn.sel{
+  background:linear-gradient(135deg,rgba(245,166,35,0.18),rgba(200,16,46,0.12));
+  border-color:var(--gold);
+}
+.team-btn.sel .t-name{color:var(--gold);}
+.team-btn:disabled{cursor:default;opacity:0.6;}
+.t-city{font-size:9px;color:var(--g3);font-weight:500;margin-bottom:2px;line-height:1;}
+.t-name{
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:800;font-size:16px;color:var(--white);
+  line-height:1.1;letter-spacing:0.3px;
+}
+.vs{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:12px;color:var(--g4);}
+
+.gc-ind{
+  padding:0 13px 8px;
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:12px;font-weight:700;letter-spacing:0.5px;
+  min-height:20px;color:var(--gold);
+}
+
+/* ── INSIGHT EXPAND ── */
+.gc-expand-btn{
+  width:100%;background:none;border:none;border-top:1px solid rgba(255,255,255,0.05);
+  color:var(--g3);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;
+  letter-spacing:1px;padding:8px 14px;cursor:pointer;text-align:left;
+  display:flex;align-items:center;justify-content:space-between;
+  transition:color 0.15s;
+}
+.gc-expand-btn:active{color:var(--gold);}
+.gc-expand-btn .arrow{transition:transform 0.25s;font-size:10px;}
+.gc-expand-btn.open .arrow{transform:rotate(180deg);}
+.gc-insight{
+  max-height:0;overflow:hidden;
+  transition:max-height 0.35s ease;
+  background:rgba(255,255,255,0.02);
+}
+.gc-insight.open{max-height:300px;}
+.gc-insight-inner{padding:10px 14px 12px;}
+.ins-row{
+  display:flex;align-items:flex-start;gap:8px;
+  padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.04);
+  font-size:12px;line-height:1.4;
+}
+.ins-row:last-child{border-bottom:none;padding-bottom:0;}
+.ins-icon{font-size:13px;flex-shrink:0;margin-top:1px;}
+.ins-text{color:var(--g1);}
+.ins-text strong{color:var(--white);}
+.ins-last5{display:flex;gap:3px;margin-top:3px;}
+.ins-dot{
+  width:18px;height:18px;border-radius:50%;
+  font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:10px;
+  display:flex;align-items:center;justify-content:center;
+}
+.ins-dot.w{background:rgba(22,163,74,0.25);color:#4ade80;border:1px solid rgba(22,163,74,0.3);}
+.ins-dot.l{background:rgba(200,16,46,0.2);color:#f87171;border:1px solid rgba(200,16,46,0.25);}
+
+/* ── SUBMIT FOOTER ── */
+.submit-footer{
+  position:fixed;bottom:0;left:0;right:0;
+  background:linear-gradient(to top,var(--navy) 75%,transparent);
+  padding:14px 16px 28px;z-index:160;
+}
+.submit-btn{
+  width:100%;
+  background:linear-gradient(135deg,var(--red),var(--red2));
+  border:none;border-radius:13px;color:white;
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:800;font-size:19px;letter-spacing:1.5px;
+  padding:15px;cursor:pointer;text-transform:uppercase;
+  box-shadow:0 4px 20px rgba(200,16,46,0.4);
+  transition:all 0.15s;
+}
+.submit-btn:disabled{
+  background:linear-gradient(135deg,#1e293b,#0f172a);
+  box-shadow:none;color:var(--g4);
+}
+.submit-btn:not(:disabled):active{transform:scale(0.99);}
+.submit-cnt{
+  text-align:center;font-size:11px;color:var(--g3);
+  margin-top:5px;font-family:'Barlow Condensed',sans-serif;
+  font-weight:600;letter-spacing:0.3px;
+}
+
+/* ── SUCCESS FLASH ── */
+.success-overlay{
+  position:fixed;inset:0;z-index:300;
+  background:var(--navy);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:32px 24px;text-align:center;
+  opacity:0;pointer-events:none;
+  transition:opacity 0.3s;
+}
+.success-overlay.show{opacity:1;pointer-events:all;}
+.suc-icon{font-size:64px;margin-bottom:16px;animation:pop 0.5s ease;}
+@keyframes pop{0%{transform:scale(0);}70%{transform:scale(1.15);}100%{transform:scale(1);}}
+.suc-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:34px;color:var(--gold);letter-spacing:1px;margin-bottom:6px;}
+.suc-sub{font-size:14px;color:var(--g2);margin-bottom:28px;line-height:1.5;}
+.suc-summary{
+  background:var(--card);border-radius:13px;
+  padding:16px;width:100%;max-width:320px;
+  text-align:left;margin-bottom:24px;
+}
+.suc-summary h3{
+  font-family:'Barlow Condensed',sans-serif;font-weight:800;
+  font-size:13px;letter-spacing:1.5px;color:var(--gold);
+  text-transform:uppercase;margin-bottom:10px;
+}
+.suc-row{
+  display:flex;justify-content:space-between;
+  font-size:12px;padding:5px 0;
+  border-bottom:1px solid rgba(255,255,255,0.05);color:var(--g1);
+}
+.suc-row:last-child{border-bottom:none;}
+.suc-row strong{color:var(--white);font-weight:600;}
+.suc-back{
+  background:transparent;border:2px solid var(--g4);
+  border-radius:11px;color:var(--g2);
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:700;font-size:15px;letter-spacing:1px;
+  padding:11px 28px;cursor:pointer;
+}
+
+/* ── COMMISSIONER ── */
+.comm-screen{
+  position:fixed;inset:0;z-index:250;
+  background:var(--navy);
+  display:flex;flex-direction:column;
+  transform:translateY(100%);
+  transition:transform 0.35s cubic-bezier(0.32,0.72,0,1);
+}
+.comm-screen.open{transform:translateY(0);}
+.comm-hdr{
+  background:var(--navy2);border-bottom:2px solid var(--gold);
+  padding:16px 18px;display:flex;align-items:center;justify-content:space-between;
+}
+.comm-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:20px;color:var(--gold);letter-spacing:1px;}
+.comm-content{flex:1;overflow-y:auto;padding:16px;}
+
+.comm-section{margin-bottom:24px;}
+.comm-section-title{
+  font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:14px;
+  letter-spacing:1.5px;color:var(--g2);text-transform:uppercase;
+  margin-bottom:10px;padding-bottom:6px;
+  border-bottom:1px solid rgba(255,255,255,0.06);
+}
+.comm-player-row{
+  background:var(--card);border-radius:10px;
+  padding:12px 14px;margin-bottom:6px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.comm-player-name{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:17px;}
+.comm-player-device{font-size:11px;color:var(--g3);margin-top:2px;}
+.comm-btn{
+  background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);
+  border-radius:8px;color:var(--g1);
+  font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;
+  padding:6px 12px;cursor:pointer;letter-spacing:0.5px;
+}
+.comm-btn.danger{border-color:rgba(200,16,46,0.3);color:#f87171;background:rgba(200,16,46,0.08);}
+
+.submission-row{
+  background:var(--card);border-radius:10px;
+  padding:11px 14px;margin-bottom:6px;
+  border-left:3px solid rgba(255,255,255,0.1);
+}
+.submission-row.active{border-left-color:var(--green);}
+.submission-row.overwrite{border-left-color:var(--red);}
+.sub-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;}
+.sub-player{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:15px;}
+.sub-badge{
+  font-size:10px;font-weight:700;font-family:'Barlow Condensed',sans-serif;
+  padding:2px 8px;border-radius:6px;letter-spacing:0.5px;
+}
+.sub-badge.active-b{background:rgba(22,163,74,0.2);color:#4ade80;border:1px solid rgba(22,163,74,0.3);}
+.sub-badge.over-b{background:rgba(200,16,46,0.2);color:#f87171;border:1px solid rgba(200,16,46,0.3);}
+.sub-detail{font-size:11px;color:var(--g3);}
+.sub-actions{display:flex;gap:6px;margin-top:8px;}
+
+/* ── LIVE INDICATOR ── */
+.live-bar{
+  background:rgba(22,163,74,0.1);border-bottom:1px solid rgba(22,163,74,0.2);
+  padding:5px 18px;display:flex;align-items:center;gap:6px;
+  font-size:11px;color:var(--green);
+  font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:0.5px;
+}
+.live-bar .dot{width:5px;height:5px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;}
+</style>
+</head>
+<body>
+
+<!-- REGISTRATION SCREEN -->
+<div class="reg-screen" id="regScreen">
+  <div class="reg-logo">FAMILY <em>PICKS</em></div>
+  <div class="reg-sub">2026 NFL Season · Who are you?</div>
+  <div class="reg-label">Tap your name</div>
+  <div class="name-grid" id="nameGrid"></div>
+  <div style="height:12px;"></div>
+  <div style="font-size:11px;color:var(--g3);text-align:center;">Your device will remember you all season</div>
+</div>
+
+<!-- MAIN APP -->
+<div class="hdr">
+  <div class="hdr-top">
+    <div class="logo">FAMILY <em>PICKS</em></div>
+    <div class="user-pill" onclick="showCommOrSwitch()">
+      <div class="user-avatar" id="userAvatar">R</div>
+      <div class="user-name" id="userNameDisplay">Ryan</div>
+    </div>
+  </div>
+  <div class="tabs">
+    <button class="tab on" onclick="switchTab('home')">🏠 Home</button>
+    <button class="tab" onclick="switchTab('weekly')">📋 Weekly</button>
+    <button class="tab" onclick="switchTab('standings')">🏆 Season</button>
+  </div>
+</div>
+
+<div class="live-bar">
+  <div class="dot"></div>
+  LIVE · Week 5 open · Auto-scoring active · Winners via ESPN API
+</div>
+
+<div class="content">
+
+  <!-- HOME PANEL -->
+  <div class="panel on" id="panel-home">
+    <div class="week-banner">
+      <div class="wb-left">
+        <div class="wb-week">Week 5 — 2026</div>
+        <div class="wb-status"><span class="dot"></span>Picks open · 3 days remaining</div>
+      </div>
+      <button class="picks-btn" id="mainPicksBtn" onclick="openPicks()">MAKE PICKS</button>
+    </div>
+
+    <div class="section-title">This Week — Week 4 <span>LIVE RESULTS</span></div>
+    <div id="homeStandings"></div>
+
+    <div style="text-align:center;padding:8px 0 4px;">
+      <div style="font-size:11px;color:var(--g3);font-style:italic;">
+        Scores auto-update · Next check in ~12 min
+      </div>
+    </div>
+  </div>
+
+  <!-- WEEKLY PANEL -->
+  <div class="panel" id="panel-weekly">
+    <div class="wk-chips" id="wkChips"></div>
+    <div class="grid-wrap">
+      <div class="picks-grid" id="picksGrid"></div>
+    </div>
+    <div style="text-align:center;padding:12px 0 4px;font-size:11px;color:var(--g3);font-style:italic;">
+      <span class="dot" style="display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--green);margin-right:4px;animation:pulse 2s infinite;"></span>
+      Picks reveal at kickoff · Winners auto-detected
+    </div>
+  </div>
+
+  <!-- SEASON STANDINGS PANEL -->
+  <div class="panel" id="panel-standings">
+    <div class="section-title">Season Standings <span>18 WEEKS</span></div>
+    <div id="seasonStandings"></div>
+  </div>
+
+</div>
+
+<!-- PICK ENTRY PANEL (slides up) -->
+<div class="pick-panel" id="pickPanel">
+  <div class="pick-hdr">
+    <div class="pick-hdr-top">
+      <div class="pick-title">WEEK 5 PICKS</div>
+      <button class="close-btn" onclick="closePicks()">✕ CLOSE</button>
+    </div>
+    <div class="prog-wrap">
+      <div class="prog-row">
+        <span id="progText">Tap a team to pick</span>
+        <span id="progFrac">0 / 16</span>
+      </div>
+      <div class="prog-bar"><div class="prog-fill" id="progFill"></div></div>
+    </div>
+  </div>
+  <div class="games-scroll" id="gamesScroll"></div>
+  <div class="submit-footer">
+    <button class="submit-btn" id="submitBtn" disabled onclick="submitPicks()">LOCK IN PICKS</button>
+    <div class="submit-cnt" id="submitCnt">Make all 16 picks to submit</div>
+  </div>
+</div>
+
+<!-- SUCCESS OVERLAY -->
+<div class="success-overlay" id="successOverlay">
+  <div class="suc-icon">🏈</div>
+  <div class="suc-title">PICKS LOCKED!</div>
+  <div class="suc-sub" id="sucSub">Your picks are in for Week 5.</div>
+  <div class="suc-summary">
+    <h3>Your Picks — Week 5</h3>
+    <div id="sucList"></div>
+  </div>
+  <button class="suc-back" onclick="closeSuccess()">← BACK TO APP</button>
+</div>
+
+<!-- COMMISSIONER SCREEN -->
+<div class="comm-screen" id="commScreen">
+  <div class="comm-hdr">
+    <div class="comm-title">⚙️ COMMISSIONER</div>
+    <button class="close-btn" onclick="closeComm()" style="border-color:rgba(245,166,35,0.3);color:var(--gold);">✕ CLOSE</button>
+  </div>
+  <div class="comm-content">
+
+    <div class="comm-section">
+      <div class="comm-section-title">Week 5 — Submission Log</div>
+      <div id="submissionLog"></div>
+    </div>
+
+    <div class="comm-section">
+      <div class="comm-section-title">Player Registrations</div>
+      <div id="playerRegs"></div>
+    </div>
+
+    <div class="comm-section">
+      <div class="comm-section-title">System Status</div>
+      <div style="background:var(--card);border-radius:10px;padding:14px;">
+        <div style="display:flex;justify-content:space-between;font-size:13px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.05);">
+          <span style="color:var(--g2);">ESPN API</span>
+          <span style="color:#4ade80;font-weight:600;">✓ Connected</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:13px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.05);">
+          <span style="color:var(--g2);">Airtable</span>
+          <span style="color:#4ade80;font-weight:600;">✓ Connected</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:13px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.05);">
+          <span style="color:var(--g2);">GitHub Actions</span>
+          <span style="color:#4ade80;font-weight:600;">✓ Running</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:13px;padding:5px 0;">
+          <span style="color:var(--g2);">Last score check</span>
+          <span style="color:var(--g1);">4 min ago</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- USER ACTION SHEET -->
+<style>
+#userSheetBackdrop { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:290; opacity:0; transition:opacity 0.25s; }
+#userSheetBackdrop.open { display:block; opacity:1; }
+#userSheet { position:fixed; bottom:0; left:0; right:0; z-index:295; background:var(--card2); border-radius:20px 20px 0 0; border-top:2px solid rgba(255,255,255,0.08); padding:20px 20px 36px; transform:translateY(100%); transition:transform 0.3s cubic-bezier(0.32,0.72,0,1); }
+#userSheet.open { transform:translateY(0); }
+</style>
+<div id="userSheetBackdrop"></div>
+<div id="userSheet">
+  <div style="width:36px;height:4px;background:rgba(255,255,255,0.2);border-radius:2px;margin:0 auto 20px;"></div>
+  <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:18px;margin-bottom:4px;" id="sheetUserName">Ryan</div>
+  <div style="font-size:12px;color:var(--g3);margin-bottom:20px;">Signed in on this device</div>
+  <div id="sheetCommSection" style="display:none;margin-bottom:10px;">
+    <div id="sheetCommBtn" onclick="showPINEntry()" style="
+      width:100%;background:rgba(245,166,35,0.1);border:1.5px solid rgba(245,166,35,0.3);
+      border-radius:12px;color:var(--gold);
+      font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:16px;letter-spacing:0.5px;
+      padding:13px;cursor:pointer;margin-bottom:0;text-align:center;">
+      ⚙️ COMMISSIONER VIEW
+    </div>
+    <div id="pinEntry" style="display:none;margin-top:10px;">
+      <input id="pinInput" type="password" inputmode="numeric" maxlength="4" placeholder="Enter PIN"
+        style="width:100%;background:rgba(255,255,255,0.06);border:1.5px solid rgba(245,166,35,0.4);
+        border-radius:10px;color:white;font-family:'Barlow Condensed',sans-serif;font-weight:700;
+        font-size:22px;letter-spacing:8px;padding:12px;text-align:center;outline:none;margin-bottom:8px;"
+        oninput="if(this.value.length===4) checkPIN()">
+      <div id="pinError" style="color:#f87171;font-size:12px;text-align:center;min-height:16px;"></div>
+    </div>
+  </div>
+  <button onclick="switchUser()" style="
+    width:100%;background:rgba(255,255,255,0.04);border:1.5px solid rgba(255,255,255,0.08);
+    border-radius:12px;color:var(--g2);
+    font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;letter-spacing:0.5px;
+    padding:13px;cursor:pointer;margin-bottom:10px;">
+    Switch User
+  </button>
+  <button onclick="closeUserSheet()" style="
+    width:100%;background:none;border:none;color:var(--g3);
+    font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:14px;
+    padding:10px;cursor:pointer;">
+    Cancel
+  </button>
+</div>
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────
+const PLAYERS = ["Ryan","Nicole","Mike","Mom","Dad","Annie","Nathan","Aidan","Kate"];
+const COMM_PIN = "1234"; // demo
+
+const GAMES_W5 = [
+  {day:"Thursday Night", time:"8:20 PM ET", lock: true,
+   home:{city:"Kansas City",   name:"CHIEFS",     record:"4-0", last5:"W W W W W"},
+   away:{city:"Los Angeles",   name:"CHARGERS",   record:"2-2", last5:"W L W L W"},
+   spread:"KC -7.5", total:"O/U 48.5", weather:"🏟️ Dome",
+   pool:"Pool picks KC 78% here — Chiefs are 5-1 all-time in this matchup.",
+   summary:"Chiefs are dominant at home and on a roll. Chargers are inconsistent. Heavy KC spot."},
+
+  {day:"Sunday 1:00 PM", time:"1:00 PM ET", lock: false,
+   home:{city:"Philadelphia",  name:"EAGLES",     record:"3-1", last5:"W W L W W"},
+   away:{city:"Green Bay",     name:"PACKERS",    record:"3-1", last5:"W L W W W"},
+   spread:"PHI -3", total:"O/U 44.5", weather:"🌧️ Rain, 52°F, 12mph wind",
+   pool:"Pool splits almost evenly here. Eagles are 4-2 at home vs GB in pool history.",
+   summary:"Two good teams, close line. Rain and wind may keep scoring low. Slight edge to home Eagles."},
+
+  {day:"Sunday 1:00 PM", time:"1:00 PM ET", lock: false,
+   home:{city:"Miami",         name:"DOLPHINS",   record:"1-3", last5:"L W L L W"},
+   away:{city:"Buffalo",       name:"BILLS",      record:"4-0", last5:"W W W W W"},
+   spread:"BUF -6", total:"O/U 51", weather:"🏟️ Dome",
+   pool:"Pool picks Buffalo 71% of the time here. Bills are 6-0 SU in pool history vs Miami.",
+   summary:"Bills are undefeated and one of the best teams in the league. Dolphins are struggling. Clear Bills pick."},
+
+  {day:"Sunday 1:00 PM", time:"1:00 PM ET", lock: false,
+   home:{city:"Pittsburgh",    name:"STEELERS",   record:"2-2", last5:"W L W L W"},
+   away:{city:"Atlanta",       name:"FALCONS",    record:"2-2", last5:"L W L W W"},
+   spread:"PIT -2.5", total:"O/U 41", weather:"🌥️ 58°F, Cloudy",
+   pool:"Very even split historically. Low-scoring games typical when these two meet.",
+   summary:"Toss-up game. Both teams are .500 and streaky. Steelers get a slight home edge."},
+
+  {day:"Sunday 1:00 PM", time:"1:00 PM ET", lock: false,
+   home:{city:"Minnesota",     name:"VIKINGS",    record:"3-1", last5:"W W L W W"},
+   away:{city:"Tampa Bay",     name:"BUCCANEERS", record:"2-2", last5:"W L L W W"},
+   spread:"MIN -2", total:"O/U 45", weather:"🏟️ Dome",
+   pool:"Pool picks MIN 53% here — genuine toss-up in the pool historically.",
+   summary:"Pick'em game essentially. Vikings at home in a dome is a small edge. Could go either way."},
+
+  {day:"Sunday 1:00 PM", time:"1:00 PM ET", lock: false,
+   home:{city:"Indianapolis",  name:"COLTS",      record:"1-3", last5:"L L W L W"},
+   away:{city:"Jacksonville",  name:"JAGUARS",    record:"1-3", last5:"L W L L W"},
+   spread:"IND -1", total:"O/U 40", weather:"🏟️ Dome",
+   pool:"Pool avoids both teams — lowest pick confidence of any matchup historically.",
+   summary:"Both teams are struggling. This is a bottom-of-the-league game. Flip a coin."},
+
+  {day:"Sunday 1:00 PM", time:"1:00 PM ET", lock: false,
+   home:{city:"Tennessee",     name:"TITANS",     record:"1-3", last5:"L L W L W"},
+   away:{city:"Chicago",       name:"BEARS",      record:"2-2", last5:"W L W L W"},
+   spread:"CHI -2.5", total:"O/U 39.5", weather:"⛅ 61°F, Clear",
+   pool:"Pool picks Chicago 58% here despite them being on the road.",
+   summary:"Bears are the better team right now despite being the visitor. Young QB Caleb Williams is improving."},
+
+  {day:"Sunday 1:00 PM", time:"1:00 PM ET", lock: false,
+   home:{city:"New Orleans",   name:"SAINTS",     record:"2-2", last5:"W L L W W"},
+   away:{city:"Carolina",      name:"PANTHERS",   record:"0-4", last5:"L L L L L"},
+   spread:"NO -7", total:"O/U 38.5", weather:"🏟️ Dome",
+   pool:"Pool picks NO 81% here. Panthers are 0-4 — avoid Carolina.",
+   summary:"Panthers are winless and one of the worst teams in the league. Saints should win comfortably at home."},
+
+  {day:"Sunday 1:00 PM", time:"1:00 PM ET", lock: false,
+   home:{city:"Washington",    name:"COMMANDERS", record:"3-1", last5:"W W L W W"},
+   away:{city:"Arizona",       name:"CARDINALS",  record:"1-3", last5:"L W L L W"},
+   spread:"WAS -5.5", total:"O/U 43", weather:"🌤️ 64°F, Light wind",
+   pool:"Pool picks Washington 72% — Commanders have been a good home team historically.",
+   summary:"Washington is playing well this year and at home. Cardinals are rebuilding. Commanders are the right call."},
+
+  {day:"Sunday 4:05 PM", time:"4:05 PM ET", lock: false,
+   home:{city:"Las Vegas",     name:"RAIDERS",    record:"1-3", last5:"L L W L W"},
+   away:{city:"Denver",        name:"BRONCOS",    record:"2-2", last5:"W L W L L"},
+   spread:"DEN -1.5", total:"O/U 40.5", weather:"☀️ 78°F, Las Vegas",
+   pool:"Slight lean to Denver historically in this division rivalry.",
+   summary:"AFC West division game — always competitive. Denver has the slight edge on paper but Raiders at home are dangerous."},
+
+  {day:"Sunday 4:05 PM", time:"4:05 PM ET", lock: false,
+   home:{city:"Seattle",       name:"SEAHAWKS",   record:"2-2", last5:"W L L W W"},
+   away:{city:"Los Angeles",   name:"RAMS",       record:"2-2", last5:"L W W L W"},
+   spread:"SEA -2", total:"O/U 44", weather:"🌧️ 52°F, Rain",
+   pool:"Pool splits 55/45 Seattle in this NFC West rivalry.",
+   summary:"NFC West divisional game in the rain in Seattle. CenturyLink is one of the loudest stadiums — home edge is real here."},
+
+  {day:"Sunday 4:25 PM", time:"4:25 PM ET", lock: false,
+   home:{city:"San Francisco", name:"49ERS",      record:"3-1", last5:"W W L W W"},
+   away:{city:"Dallas",        name:"COWBOYS",    record:"2-2", last5:"W L L W W"},
+   spread:"SF -4.5", total:"O/U 46", weather:"⛅ 61°F, Clear",
+   pool:"Pool historically undervalues SF here — picks them only 41% despite being favored.",
+   summary:"49ers are the better team and at home. Cowboys are inconsistent. SF is being undervalued — this could be a good pick."},
+
+  {day:"Sunday 4:25 PM", time:"4:25 PM ET", lock: false,
+   home:{city:"Cincinnati",    name:"BENGALS",    record:"2-2", last5:"L W W L W"},
+   away:{city:"Cleveland",     name:"BROWNS",     record:"1-3", last5:"L L W L W"},
+   spread:"CIN -5", total:"O/U 42", weather:"🌥️ 55°F, Overcast",
+   pool:"Pool picks Cincinnati 69% — Bengals usually cover vs Cleveland.",
+   summary:"AFC North rivalry. Bengals have the better quarterback and more offensive weapons. Browns are struggling."},
+
+  {day:"Sunday Night",   time:"8:20 PM ET", lock: false,
+   home:{city:"Baltimore",     name:"RAVENS",     record:"3-1", last5:"W W L W W"},
+   away:{city:"New York",      name:"JETS",       record:"1-3", last5:"L W L L W"},
+   spread:"BAL -9.5", total:"O/U 42", weather:"🌩️ 48°F, Storms possible",
+   pool:"Pool picks Baltimore 82% here. Ravens are 7-1 SU vs Jets in pool history.",
+   summary:"Ravens are a top team and heavy favorites at home. Jets are inconsistent. Baltimore is the clear pick."},
+
+  {day:"Sunday Night",   time:"8:20 PM ET", lock: false,
+   home:{city:"Detroit",       name:"LIONS",      record:"3-1", last5:"W L W W W"},
+   away:{city:"New York",      name:"GIANTS",     record:"1-3", last5:"L L W L L"},
+   spread:"DET -8", total:"O/U 45.5", weather:"🏟️ Dome",
+   pool:"Pool picks Detroit 79% — Lions have been excellent at home this season.",
+   summary:"Lions are one of the most exciting teams in the NFL right now. Giants are rebuilding. Detroit is the strong pick."},
+
+  {day:"Monday Night",   time:"8:15 PM ET", lock: false,
+   home:{city:"Houston",       name:"TEXANS",     record:"3-1", last5:"W W L W W"},
+   away:{city:"New England",   name:"PATRIOTS",   record:"0-4", last5:"L L L L L"},
+   spread:"HOU -10", total:"O/U 40", weather:"🏟️ Dome",
+   pool:"Pool picks Houston 88% — Patriots are the worst team in the league this year.",
+   summary:"Patriots are winless and the clear worst team in the NFL. Texans are a young, good team at home. Easy call."},
+];
+
+// Fake season data
+const SEASON = {
+  Ryan:   {wins:[11,9,10,12], streak:'🔥+3', stype:'hot'},
+  Nicole: {wins:[8,11,9,11],  streak:'🔥+2', stype:'hot'},
+  Mike:   {wins:[10,8,11,9],  streak:'❄️-1', stype:'cold'},
+  Mom:    {wins:[9,10,8,10],  streak:'—',    stype:'neu'},
+  Dad:    {wins:[7,9,10,8],   streak:'❄️-2', stype:'cold'},
+  Annie:  {wins:[12,10,7,9],  streak:'↑+1',  stype:'neu'},
+  Nathan: {wins:[8,7,9,11],   streak:'🔥+2', stype:'hot'},
+  Aidan:  {wins:[6,8,10,7],   streak:'❄️-1', stype:'cold'},
+  Kate:   {wins:[9,6,8,9],    streak:'—',    stype:'neu'},
+};
+
+// Fake W4 picks grid
+const W4_GAMES = ["KC vs BAL","PHI vs GB","MIA vs BUF","PIT vs ATL","MIN vs TB","SF vs DAL","DET vs NYG","HOU vs NE"];
+const W4_WIN   = ["KC","PHI","BUF","PIT","MIN","SF","DET","NE"];
+const W4_PICKS = {
+  Ryan:   ["KC","PHI","BUF","PIT","MIN","SF","DET","NE"],
+  Nicole: ["KC","GB","BUF","ATL","MIN","DAL","DET","NE"],
+  Mike:   ["BAL","PHI","MIA","PIT","TB","SF","NYG","NE"],
+  Mom:    ["KC","PHI","BUF","PIT","MIN","SF","DET","HOU"],
+  Dad:    ["KC","GB","MIA","ATL","MIN","DAL","DET","NE"],
+  Annie:  ["KC","PHI","BUF","PIT","MIN","SF","NYG","NE"],
+  Nathan: ["BAL","PHI","BUF","PIT","MIN","SF","DET","NE"],
+  Aidan:  ["KC","GB","BUF","ATL","TB","DAL","DET","HOU"],
+  Kate:   ["KC","PHI","MIA","PIT","MIN","SF","DET","NE"],
+};
+
+// ── STATE ──────────────────────────────────────────────────────
+let currentUser = null; // Demo mode — always show registration
+let picks = {};
+let currentWeek = 4;
+
+// ── INIT ──────────────────────────────────────────────────────
+function init(){
+  buildNameGrid();
+  if(currentUser){
+    hideReg();
+    setUser(currentUser);
+  } else {
+    document.getElementById('regScreen').classList.remove('hidden');
+  }
+  buildHomeStandings();
+  buildSeasonStandings();
+  buildWkChips();
+  buildWeeklyGrid(4);
+  buildGames();
+  buildCommView();
+}
+
+function buildNameGrid(){
+  const grid = document.getElementById('nameGrid');
+  PLAYERS.forEach(p => {
+    const btn = document.createElement('button');
+    btn.className = 'name-btn';
+    btn.textContent = p;
+    btn.onclick = () => selectName(p);
+    grid.appendChild(btn);
+  });
+}
+
+function selectName(name){
+  document.querySelectorAll('.name-btn').forEach(b => b.classList.remove('sel'));
+  event.target.classList.add('sel');
+  setTimeout(() => {
+    localStorage.setItem('nfl_user', name);
+    currentUser = name;
+    hideReg();
+    setUser(name);
+  }, 300);
+}
+
+function hideReg(){ document.getElementById('regScreen').classList.add('hidden'); }
+
+function setUser(name){
+  document.getElementById('userNameDisplay').textContent = name;
+  document.getElementById('userAvatar').textContent = name[0];
+  // If Ryan, show commissioner option
+}
+
+function closeUserSheet(){
+  document.getElementById('userSheet').classList.remove('open');
+  document.getElementById('userSheetBackdrop').classList.remove('open');
+}
+function switchUser(){
+  closeUserSheet();
+  localStorage.removeItem('nfl_user');
+  currentUser = null;
+  location.reload();
+}
+function showPINEntry(){
+  const pe = document.getElementById('pinEntry');
+  pe.style.display = pe.style.display === 'none' ? 'block' : 'none';
+  if(pe.style.display === 'block'){
+    document.getElementById('pinInput').value = '';
+    document.getElementById('pinError').textContent = '';
+    setTimeout(()=>document.getElementById('pinInput').focus(), 100);
+  }
+}
+function checkPIN(){
+  const pin = document.getElementById('pinInput').value;
+  if(pin === COMM_PIN){
+    closeUserSheet();
+    document.getElementById('pinInput').value = '';
+    document.getElementById('pinEntry').style.display = 'none';
+    openComm();
+  } else if(pin.length === 4){
+    document.getElementById('pinError').textContent = 'Incorrect PIN';
+    document.getElementById('pinInput').value = '';
+  }
+}
+function showCommOrSwitch(){
+  document.getElementById('sheetUserName').textContent = currentUser || 'Unknown';
+  document.getElementById('sheetCommSection').style.display = currentUser === 'Ryan' ? 'block' : 'none';
+  document.getElementById('userSheet').classList.add('open');
+  document.getElementById('userSheetBackdrop').classList.add('open');
+}
+
+// ── TAB SWITCHING ─────────────────────────────────────────────
+function switchTab(tab){
+  document.querySelectorAll('.tab').forEach((t,i) => {
+    t.classList.toggle('on', ['home','weekly','standings'][i] === tab);
+  });
+  ['home','weekly','standings'].forEach(p => {
+    document.getElementById('panel-'+p).classList.toggle('on', p === tab);
+  });
+}
+
+// ── STANDINGS ─────────────────────────────────────────────────
+function getSorted(){
+  return PLAYERS.map(p => ({
+    name: p,
+    total: SEASON[p].wins.reduce((a,b)=>a+b,0),
+    wins: SEASON[p].wins,
+    streak: SEASON[p].streak,
+    stype: SEASON[p].stype,
+  })).sort((a,b) => b.total - a.total);
+}
+
+function buildHomeStandings(){
+  const el = document.getElementById('homeStandings');
+  // Sort by THIS WEEK's wins (week 4 = index 3), tiebreak by season total
+  const weekIdx = 3;
+  const sorted = PLAYERS.map(p => ({
+    name: p,
+    weekWins: SEASON[p].wins[weekIdx] || 0,
+    total: SEASON[p].wins.reduce((a,b)=>a+b,0),
+    streak: SEASON[p].streak,
+    stype: SEASON[p].stype,
+    wins: SEASON[p].wins,
+  })).sort((a,b) => b.weekWins - a.weekWins || b.total - a.total);
+
+  sorted.forEach((p, i) => {
+    const rank = i+1;
+    const isMe = p.name === currentUser;
+    const cardCls = isMe ? 'me' : rank===1?'p1':rank===2?'p2':rank===3?'p3':'';
+    const rankCls = rank===1?'rank-1':rank===2?'rank-2':rank===3?'rank-3':'rank-n';
+    const rankDisp = rank===1?'🥇':rank===2?'🥈':rank===3?'🥉':rank;
+    const stCls = p.stype==='hot'?'hot':p.stype==='cold'?'cold':'neu';
+    const div = document.createElement('div');
+    div.className = `s-card ${cardCls}`;
+    div.style.animationDelay = `${i*0.05}s`;
+    div.innerHTML = `
+      <div class="s-rank ${rankCls}">${rankDisp}</div>
+      <div class="s-info">
+        <div class="s-name">${p.name}${isMe?'<span class="you-tag">YOU</span>':''}</div>
+        <div class="s-meta">
+          <span class="s-stat">Season total: <strong>${p.total}</strong></span>
+          <span class="streak ${stCls}">${p.streak}</span>
+        </div>
+      </div>
+      <div class="s-right">
+        <div class="s-wins">${p.weekWins}</div>
+        <div class="s-wklabel">this week</div>
+      </div>
+    `;
+    el.appendChild(div);
+  });
+}
+
+function buildSeasonStandings(){
+  const el = document.getElementById('seasonStandings');
+  const sorted = getSorted();
+  sorted.forEach((p,i) => buildSCard(el, p, i));
+}
+
+function buildSCard(container, p, i){
+  const rank = i+1;
+  const total = p.total;
+  const pct = ((total/(4*16))*100).toFixed(1);
+  const isMe = p.name === currentUser;
+  const cardCls = isMe ? 'me' : rank===1?'p1':rank===2?'p2':rank===3?'p3':'';
+  const rankCls = rank===1?'rank-1':rank===2?'rank-2':rank===3?'rank-3':'rank-n';
+  const rankDisp = rank===1?'🥇':rank===2?'🥈':rank===3?'🥉':rank;
+  const stCls = p.stype==='hot'?'hot':p.stype==='cold'?'cold':'neu';
+  const maxW = 16;
+  const bars = p.wins.map(w => {
+    const r = w/maxW;
+    return `<div class="wb ${r>=0.7?'g':r>=0.5?'y':'r'}"></div>`;
+  }).join('') + '<div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div>';
+
+  const div = document.createElement('div');
+  div.className = `s-card ${cardCls}`;
+  div.style.animationDelay = `${i*0.05}s`;
+  div.innerHTML = `
+    <div class="s-rank ${rankCls}">${rankDisp}</div>
+    <div class="s-info">
+      <div class="s-name">${p.name}${isMe?'<span class="you-tag">YOU</span>':''}</div>
+      <div class="s-meta">
+        <span class="s-stat">Best: <strong>${Math.max(...p.wins)}</strong></span>
+        <span class="s-stat">Avg: <strong>${(total/p.wins.length).toFixed(1)}</strong></span>
+        <span class="streak ${stCls}">${p.streak}</span>
+      </div>
+      <div class="wk-bars">${bars}</div>
+    </div>
+    <div class="s-right">
+      <div class="s-wins">${total}</div>
+      <div class="s-wklabel">wins</div>
+      <div class="s-pct">${pct}%</div>
+    </div>
+  `;
+  container.appendChild(div);
+}
+
+// ── WEEKLY GRID ───────────────────────────────────────────────
+function buildWkChips(){
+  const el = document.getElementById('wkChips');
+  for(let w=1;w<=4;w++){
+    const c = document.createElement('button');
+    c.className = 'chip'+(w===4?' on':'');
+    c.textContent = `Week ${w}`;
+    c.onclick = () => {
+      document.querySelectorAll('.chip').forEach(x=>x.classList.remove('on'));
+      c.classList.add('on');
+      buildWeeklyGrid(w);
+    };
+    el.appendChild(c);
+  }
+  const c5 = document.createElement('button');
+  c5.className = 'chip open';
+  c5.textContent = 'Week 5 🔓';
+  el.appendChild(c5);
+}
+
+function buildWeeklyGrid(week){
+  const grid = document.getElementById('picksGrid');
+  grid.innerHTML = '';
+
+  // Header
+  let hdr = `<div class="grid-hdr">
+    <div class="gh-game">GAME</div>
+    ${PLAYERS.map(p=>`<div class="gh-player${p===currentUser?' me-col':''}">${p.substring(0,5)}</div>`).join('')}
+  </div>`;
+  grid.innerHTML += hdr;
+
+  const games = week===4 ? W4_GAMES : W4_GAMES.map((_,i)=>W4_GAMES[i]);
+  const winners = W4_WIN;
+
+  games.forEach((game,gi)=>{
+    let row = `<div class="grid-row"><div class="gr-game">${game}</div>`;
+    PLAYERS.forEach(p=>{
+      if(week===4){
+        const pick = W4_PICKS[p][gi];
+        const win = pick === winners[gi];
+        row += `<div class="gr-pick ${win?'win':'loss'}">${pick}</div>`;
+      } else {
+        const teams = game.split(' vs ');
+        const pick = teams[Math.floor(Math.random()*2)];
+        const w = teams[Math.random()>0.4?0:1];
+        row += `<div class="gr-pick ${pick===w?'win':'loss'}">${pick}</div>`;
+      }
+    });
+    row += '</div>';
+    grid.innerHTML += row;
+  });
+
+  // Totals
+  let tot = `<div class="grid-total"><div class="gt-label">WINS</div>`;
+  const allTotals = PLAYERS.map(p => {
+    if(week===4) return W4_GAMES.filter((_,gi)=>W4_PICKS[p][gi]===W4_WIN[gi]).length;
+    return SEASON[p].wins[week-1]||0;
+  });
+  const maxT = Math.max(...allTotals);
+  PLAYERS.forEach((p,i)=>{
+    const v = allTotals[i];
+    tot += `<div class="gt-val${v===maxT?' best':''}">${v}</div>`;
+  });
+  tot += '</div>';
+  grid.innerHTML += tot;
+}
+
+// ── PICK ENTRY ────────────────────────────────────────────────
+function buildGames(){
+  const scroll = document.getElementById('gamesScroll');
+  scroll.innerHTML = '';
+  let lastDay = '';
+  GAMES_W5.forEach((g,i)=>{
+    if(g.day !== lastDay){
+      const sep = document.createElement('div');
+      sep.className = 'day-sep';
+      sep.textContent = g.day;
+      scroll.appendChild(sep);
+      lastDay = g.day;
+    }
+    const card = document.createElement('div');
+    card.className = `game-card${g.lock?' locked-card':''}`;
+    card.id = `gc-${i}`;
+    // Build last5 dots
+    const homeDots = (g.home.last5||'').split(' ').map(r=>`<div class="ins-dot ${r==='W'?'w':'l'}">${r}</div>`).join('');
+    const awayDots = (g.away.last5||'').split(' ').map(r=>`<div class="ins-dot ${r==='W'?'w':'l'}">${r}</div>`).join('');
+
+    card.innerHTML = `
+      <div class="gc-top">
+        <span class="gc-num">GAME ${i+1}</span>
+        ${g.lock
+          ? `<span class="gc-lock">🔒 LOCKED</span>`
+          : `<span class="gc-time">${g.time}</span>`}
+      </div>
+      <div class="gc-teams">
+        <button class="team-btn" id="hb-${i}" onclick="makePick(${i},'home')" ${g.lock?'disabled':''}>
+          <div class="t-city">${g.home.city}</div>
+          <div class="t-name">${g.home.name}</div>
+        </button>
+        <div class="vs">VS</div>
+        <button class="team-btn" id="ab-${i}" onclick="makePick(${i},'away')" ${g.lock?'disabled':''}>
+          <div class="t-city">${g.away.city}</div>
+          <div class="t-name">${g.away.name}</div>
+        </button>
+      </div>
+      <div class="gc-ind" id="gi-${i}">${g.lock?'<span style="color:var(--g4);font-size:11px;">Game locked — picks closed</span>':''}</div>
+      <button class="gc-expand-btn" id="expbtn-${i}" onclick="toggleInsight(${i})">
+        <span>ℹ️ More info</span><span class="arrow">▼</span>
+      </button>
+      <div class="gc-insight" id="exp-${i}">
+        <div class="gc-insight-inner">
+          <div class="ins-row">
+            <div class="ins-icon">🏈</div>
+            <div class="ins-text"><strong>${g.home.name}</strong> ${g.home.record} &nbsp;·&nbsp; Last 5: <div class="ins-last5">${homeDots}</div></div>
+          </div>
+          <div class="ins-row">
+            <div class="ins-icon">✈️</div>
+            <div class="ins-text"><strong>${g.away.name}</strong> ${g.away.record} &nbsp;·&nbsp; Last 5: <div class="ins-last5">${awayDots}</div></div>
+          </div>
+          <div class="ins-row">
+            <div class="ins-icon">💰</div>
+            <div class="ins-text"><strong>Line:</strong> ${g.spread||'Pick\'em'} &nbsp;·&nbsp; <strong>O/U:</strong> ${g.total||'—'}</div>
+          </div>
+          <div class="ins-row">
+            <div class="ins-icon">${g.weather?.includes('Dome')?'🏟️':'🌡️'}</div>
+            <div class="ins-text"><strong>Weather:</strong> ${g.weather||'—'}</div>
+          </div>
+          <div class="ins-row">
+            <div class="ins-icon">📊</div>
+            <div class="ins-text">${g.pool||'—'}</div>
+          </div>
+          <div class="ins-row">
+            <div class="ins-icon">💡</div>
+            <div class="ins-text">${g.summary||'—'}</div>
+          </div>
+        </div>
+      </div>
+    `;
+    scroll.appendChild(card);
+    // Pre-fill if Thursday locked — demo shows a prior pick
+    if(g.lock){
+      document.getElementById(`hb-${i}`).classList.add('sel');
+      picks[i] = 'home';
+    }
+  });
+  updateProgress();
+  updateSubmit();
+}
+
+function makePick(idx, side){
+  const g = GAMES_W5[idx];
+  if(g.lock) return;
+  picks[idx] = side;
+  const hb = document.getElementById(`hb-${idx}`);
+  const ab = document.getElementById(`ab-${idx}`);
+  const gi = document.getElementById(`gi-${idx}`);
+  const card = document.getElementById(`gc-${idx}`);
+  hb.classList.toggle('sel', side==='home');
+  ab.classList.toggle('sel', side==='away');
+  card.classList.add('picked');
+  const team = side==='home' ? g.home.name : g.away.name;
+  gi.textContent = `✓  ${team}`;
+  gi.style.color = 'var(--gold)';
+  updateProgress();
+  updateSubmit();
+}
+
+function updateProgress(){
+  const total = GAMES_W5.length;
+  const locked = GAMES_W5.filter(g=>g.lock).length;
+  const open = total - locked;
+  const made = Object.keys(picks).filter(i=>!GAMES_W5[i].lock).length;
+  const pct = open > 0 ? (made/open)*100 : 100;
+  document.getElementById('progFill').style.width = pct+'%';
+  document.getElementById('progFrac').textContent = `${made} / ${open}`;
+  document.getElementById('progText').textContent =
+    made === open ? '🔥 All picks made!' :
+    made === 0 ? 'Tap a team to pick' :
+    `${open - made} game${open-made!==1?'s':''} remaining`;
+}
+
+function updateSubmit(){
+  const open = GAMES_W5.filter(g=>!g.lock).length;
+  const made = Object.keys(picks).filter(i=>!GAMES_W5[i].lock).length;
+  const btn = document.getElementById('submitBtn');
+  const cnt = document.getElementById('submitCnt');
+  if(made < open){
+    btn.disabled = true;
+    cnt.textContent = `${open-made} pick${open-made!==1?'s':''} remaining`;
+  } else {
+    btn.disabled = false;
+    cnt.textContent = 'All picks made — tap to lock in!';
+  }
+}
+
+function openPicks(){
+  document.getElementById('pickPanel').classList.add('open');
+}
+function closePicks(){
+  document.getElementById('pickPanel').classList.remove('open');
+}
+
+function submitPicks(){
+  const overlay = document.getElementById('successOverlay');
+  const list = document.getElementById('sucList');
+  list.innerHTML = '';
+  // Show first 8 picks
+  Object.entries(picks).slice(0,8).forEach(([idx,side])=>{
+    const g = GAMES_W5[idx];
+    const team = side==='home' ? g.home : g.away;
+    const row = document.createElement('div');
+    row.className = 'suc-row';
+    row.innerHTML = `<span>${g.home.name} vs ${g.away.name}</span><strong>${team.name}</strong>`;
+    list.appendChild(row);
+  });
+  if(Object.keys(picks).length > 8){
+    const more = document.createElement('div');
+    more.className = 'suc-row';
+    more.innerHTML = `<span style="color:var(--g3);font-style:italic">+ ${Object.keys(picks).length-8} more</span><strong></strong>`;
+    list.appendChild(more);
+  }
+  document.getElementById('mainPicksBtn').textContent = '✓ PICKED';
+  document.getElementById('mainPicksBtn').classList.add('done');
+  overlay.classList.add('show');
+}
+
+function closeSuccess(){
+  document.getElementById('successOverlay').classList.remove('show');
+  closePicks();
+}
+
+// ── COMMISSIONER ──────────────────────────────────────────────
+function buildCommView(){
+  // Submission log
+  const log = document.getElementById('submissionLog');
+  const subs = [
+    {player:'Ryan',   time:'Sun 12:47 PM', device:"Ryan's iPhone",   active:true,  flag:{time:'1:03 PM', device:'Unknown device'}},
+    {player:'Nicole', time:'Sun 11:32 AM', device:"Nicole's iPhone", active:true,  flag:null},
+    {player:'Mike',   time:null,           device:null,              active:false, flag:null},
+    {player:'Mom',    time:'Sat 8:14 PM',  device:"Mom's iPhone",    active:true,  flag:null},
+    {player:'Dad',    time:'Sun 9:55 AM',  device:"Dad's iPad",      active:true,  flag:null},
+    {player:'Annie',  time:'Sun 10:22 AM', device:"Annie's iPhone",  active:true,  flag:null},
+    {player:'Nathan', time:'Sat 7:40 PM',  device:"Nathan's iPhone", active:true,  flag:null},
+    {player:'Aidan',  time:null,           device:null,              active:false, flag:null},
+    {player:'Kate',   time:null,           device:null,              active:false, flag:null},
+  ];
+  subs.forEach((s,si)=>{
+    const div = document.createElement('div');
+    div.className = `submission-row ${s.active ? (s.flag ? 'overwrite' : 'active') : ''}`;
+    div.id = `sub-row-${si}`;
+    div.innerHTML = `
+      <div class="sub-top">
+        <span class="sub-player">${s.player}</span>
+        <span class="sub-badge ${s.active ? (s.flag ? 'over-b' : 'active-b') : ''}" style="${!s.active ? 'background:rgba(100,116,139,0.15);color:#64748b;border:1px solid rgba(100,116,139,0.2);' : ''}">
+          ${s.active ? (s.flag ? '⚠️ FLAG' : '✓ ACTIVE') : '— NO PICKS'}
+        </span>
+      </div>
+      <div class="sub-detail" style="color:${s.active ? '' : 'var(--g4)'}">
+        ${s.active ? `${s.time} · ${s.device}` : 'Has not submitted picks this week'}
+      </div>
+      ${s.flag ? `
+      <div id="flag-block-${si}" style="margin-top:8px;padding:8px 10px;background:rgba(200,16,46,0.08);border-radius:8px;border:1px solid rgba(200,16,46,0.2);">
+        <div style="font-size:11px;color:#f87171;margin-bottom:6px;">⚠️ Unknown device submitted at ${s.flag.time} · ${s.flag.device}</div>
+        <div style="font-size:11px;color:var(--g2);margin-bottom:8px;">Ryan's original picks are active. You can dismiss this flag, restore the original, or assign the unknown submission to another player.</div>
+        <div class="sub-actions">
+          <button class="comm-btn" onclick="dismissFlag(${si})">Dismiss flag</button>
+          <button class="comm-btn" onclick="showAssignPicker(${si})">Assign to player →</button>
+        </div>
+        <div id="assign-picker-${si}" style="display:none;margin-top:10px;">
+          <div style="font-size:11px;color:var(--g2);margin-bottom:6px;">Assign unknown submission to:</div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;">
+            ${PLAYERS.map(p => `<button class="comm-btn" style="font-size:12px;padding:6px 10px;" onclick="assignTo(${si},'${p}')">${p}</button>`).join('')}
+          </div>
+        </div>
+      </div>` : ''}
+    `;
+    log.appendChild(div);
+  });
+
+  // Player registrations
+  const regs = document.getElementById('playerRegs');
+  PLAYERS.forEach(p=>{
+    const div = document.createElement('div');
+    div.className = 'comm-player-row';
+    const registered = ['Ryan','Nicole','Mike','Mom','Dad','Annie','Nathan'].includes(p);
+    div.innerHTML = `
+      <div>
+        <div class="comm-player-name">${p}</div>
+        <div class="comm-player-device">${registered ? (p+"'s iPhone · Registered") : 'Not yet registered'}</div>
+      </div>
+      <button class="comm-btn ${registered?'danger':''}" onclick="alert('${p}\\'s device reset. They\\'ll re-register on next visit.')">
+        ${registered?'Reset Device':'—'}
+      </button>
+    `;
+    regs.appendChild(div);
+  });
+}
+
+function showAssignSheet(){
+  const player = prompt('Assign these picks to which player?\n\n' + 'Ryan, Nicole, Mike, Mom, Dad, Annie, Nathan, Aidan, Kate');
+  if(player && ['Ryan','Nicole','Mike','Mom','Dad','Annie','Nathan','Aidan','Kate'].includes(player)){
+    alert('Picks assigned to ' + player + ' ✓');
+  } else if(player !== null){
+    alert('Player not found. Check spelling.');
+  }
+}
+function dismissFlag(si){
+  const block = document.getElementById('flag-block-'+si);
+  if(block){ block.innerHTML = '<div style="font-size:11px;color:#4ade80;">✓ Flag dismissed. Ryan\'s original picks remain active.</div>'; }
+  const row = document.getElementById('sub-row-'+si);
+  if(row){ row.style.borderLeftColor = 'var(--green)'; }
+}
+function showAssignPicker(si){
+  const picker = document.getElementById('assign-picker-'+si);
+  if(picker) picker.style.display = picker.style.display === 'none' ? 'block' : 'none';
+}
+function assignTo(si, player){
+  const block = document.getElementById('flag-block-'+si);
+  if(block){ block.innerHTML = '<div style="font-size:11px;color:#4ade80;">✓ Unknown submission assigned to ' + player + '. Ryan\'s original picks remain active.</div>'; }
+  const row = document.getElementById('sub-row-'+si);
+  if(row){ row.style.borderLeftColor = 'var(--green)'; }
+  // Update the no-picks row for this player
+  const allRows = document.querySelectorAll('.sub-player');
+  allRows.forEach(el => {
+    if(el.textContent === player){
+      const parentRow = el.closest('.submission-row');
+      if(parentRow && parentRow.querySelector('.sub-badge') && parentRow.querySelector('.sub-badge').textContent.includes('NO PICKS')){
+        parentRow.querySelector('.sub-badge').textContent = '✓ ASSIGNED';
+        parentRow.querySelector('.sub-badge').className = 'sub-badge active-b';
+        parentRow.querySelector('.sub-detail').textContent = 'Assigned from unknown device submission';
+        parentRow.querySelector('.sub-detail').style.color = '';
+        parentRow.style.borderLeftColor = 'var(--green)';
+      }
+    }
+  });
+}
+function openComm(){ document.getElementById('commScreen').classList.add('open'); }
+function closeComm(){ document.getElementById('commScreen').classList.remove('open'); }
+
+// ── INSIGHT EXPAND ───────────────────────────────────────────
+function toggleInsight(i){
+  const panel = document.getElementById('exp-'+i);
+  const btn = document.getElementById('expbtn-'+i);
+  const isOpen = panel.classList.contains('open');
+  panel.classList.toggle('open', !isOpen);
+  btn.classList.toggle('open', !isOpen);
+  btn.querySelector('span:first-child').textContent = isOpen ? 'ℹ️ More info' : 'ℹ️ Less info';
+}
+
+// ── START ─────────────────────────────────────────────────────
+document.getElementById('userSheetBackdrop').addEventListener('click', closeUserSheet);
+init();
+</script>
+
+</body>
+</html>
