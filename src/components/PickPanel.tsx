@@ -3,6 +3,46 @@
 import { useEffect, useRef, useState } from 'react'
 import { supabase } from '@/lib/supabase'
 import { getTeam } from '@/lib/teams'
+import type { GameInsight } from '@/lib/insight-types'
+
+function GameDetail({ away, home, insight }: { away: string; home: string; insight: GameInsight }) {
+  const { odds, h2h } = insight
+  const line = odds?.spreadFavorite && odds.spreadLine != null
+    ? `${odds.spreadFavorite} ${odds.spreadLine}`
+    : null
+
+  const row = (label: string, value: string) => (
+    <div className="flex items-baseline justify-between py-0.5">
+      <span style={{ color: 'rgba(255,255,255,0.35)' }}>{label}</span>
+      <span style={{ color: 'rgba(255,255,255,0.75)' }}>{value}</span>
+    </div>
+  )
+
+  const form = (f: GameInsight['away']) =>
+    `${f.record.w}-${f.record.l}${f.last5.length ? ` · ${f.last5.join(' ')}` : ''}`
+
+  return (
+    <div
+      className="px-4 py-3 text-xs"
+      style={{
+        fontFamily: 'var(--font-barlow-condensed)',
+        background: 'rgba(255,255,255,0.02)',
+        borderTop: '1px solid rgba(255,255,255,0.06)',
+      }}
+    >
+      {row('Spread', line ? `${line}${odds?.book ? ` (${odds.book})` : ''}` : 'not posted')}
+      {row('Over/Under', odds?.total != null ? String(odds.total) : 'not posted')}
+      {row(away, form(insight.away))}
+      {row(home, form(insight.home))}
+      {row(
+        'Head-to-head',
+        h2h.length
+          ? `${h2h[0].winner} won W${h2h[0].week}${h2h.length > 1 ? ` (+${h2h.length - 1})` : ''}`
+          : 'no prior meeting'
+      )}
+    </div>
+  )
+}
 
 type Game = {
   id: string
@@ -57,6 +97,8 @@ export default function PickPanel({
   const [picks, setPicks] = useState<Record<string, string>>(existingPicks)
   const [saving, setSaving] = useState<string | null>(null)
   const [saveError, setSaveError] = useState<string | null>(null)
+  const [insights, setInsights] = useState<Record<string, GameInsight>>({})
+  const [expanded, setExpanded] = useState<string | null>(null)
   const sheetRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -71,6 +113,19 @@ export default function PickPanel({
     }
     return () => { document.body.style.overflow = '' }
   }, [open])
+
+  useEffect(() => {
+    if (!open || games.length === 0) return
+    supabase
+      .from('game_insights')
+      .select('game_id, data')
+      .in('game_id', games.map((g) => g.id))
+      .then(({ data }) => {
+        const map: Record<string, GameInsight> = {}
+        for (const row of data ?? []) map[row.game_id] = row.data as unknown as GameInsight
+        setInsights(map)
+      })
+  }, [open, games])
 
   async function handlePick(gameId: string, team: string) {
     const isLocked = isGameLocked(games.find(g => g.id === gameId)!)
@@ -278,6 +333,29 @@ export default function PickPanel({
                           )
                         })}
                       </div>
+
+                      {insights[game.id] && (
+                        <>
+                          <button
+                            onClick={() => setExpanded(expanded === game.id ? null : game.id)}
+                            className="w-full text-center py-1.5 text-xs font-semibold uppercase tracking-widest outline-none active:opacity-60"
+                            style={{
+                              fontFamily: 'var(--font-barlow-condensed)',
+                              background: 'rgba(255,255,255,0.03)',
+                              color: 'rgba(255,255,255,0.35)',
+                            }}
+                          >
+                            {expanded === game.id ? 'Hide details ▲' : 'Details ▾'}
+                          </button>
+                          {expanded === game.id && (
+                            <GameDetail
+                              away={game.away_team}
+                              home={game.home_team}
+                              insight={insights[game.id]}
+                            />
+                          )}
+                        </>
+                      )}
 
                       {locked && (
                         <div

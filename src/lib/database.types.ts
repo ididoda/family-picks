@@ -7,17 +7,17 @@ export interface Database {
         Row: {
           id: string; name: string; is_active: boolean; created_at: string
           pin_hash: string | null; pin_set_at: string | null
-          pin_attempts: number; locked_until: string | null
+          pin_attempts: number; locked_until: string | null; is_commissioner: boolean
         }
         Insert: {
           id?: string; name: string; is_active?: boolean; created_at?: string
           pin_hash?: string | null; pin_set_at?: string | null
-          pin_attempts?: number; locked_until?: string | null
+          pin_attempts?: number; locked_until?: string | null; is_commissioner?: boolean
         }
         Update: {
           id?: string; name?: string; is_active?: boolean; created_at?: string
           pin_hash?: string | null; pin_set_at?: string | null
-          pin_attempts?: number; locked_until?: string | null
+          pin_attempts?: number; locked_until?: string | null; is_commissioner?: boolean
         }
         Relationships: []
       }
@@ -83,6 +83,20 @@ export interface Database {
             foreignKeyName: 'picks_game_id_fkey'
             columns: ['game_id']
             isOneToOne: false
+            referencedRelation: 'games'
+            referencedColumns: ['id']
+          },
+        ]
+      }
+      game_insights: {
+        Row: { game_id: string; data: Json; updated_at: string }
+        Insert: { game_id: string; data?: Json; updated_at?: string }
+        Update: { game_id?: string; data?: Json; updated_at?: string }
+        Relationships: [
+          {
+            foreignKeyName: 'game_insights_game_id_fkey'
+            columns: ['game_id']
+            isOneToOne: true
             referencedRelation: 'games'
             referencedColumns: ['id']
           },

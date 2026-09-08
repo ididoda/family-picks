@@ -21,7 +21,7 @@ export default function CommissionerApp() {
   const [saving, setSaving] = useState<string | null>(null)
   const [newPlayerName, setNewPlayerName] = useState('')
   const [espnStatus, setEspnStatus] = useState<string | null>(null)
-  const [espnLoading, setEspnLoading] = useState<'fetch' | 'sync' | null>(null)
+  const [espnLoading, setEspnLoading] = useState<'fetch' | 'sync' | 'insights' | null>(null)
 
   // Manual pick entry
   const [entryWeekId, setEntryWeekId] = useState<string | null>(null)
@@ -168,6 +168,25 @@ export default function CommissionerApp() {
     setEspnLoading(null)
   }
 
+  async function refreshInsights() {
+    if (!currentWeek) return
+    setEspnLoading('insights')
+    setEspnStatus(null)
+    try {
+      const res = await fetch('/api/commissioner/refresh-insights', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ weekId: currentWeek.id }),
+      })
+      const data = await res.json()
+      if (data.error) throw new Error(data.error)
+      setEspnStatus(`✓ Insights: ${data.updated} games, ${data.withOdds} with odds`)
+    } catch (e) {
+      setEspnStatus(`Error: ${(e as Error).message}`)
+    }
+    setEspnLoading(null)
+  }
+
   async function addPlayer() {
     const name = newPlayerName.trim()
     if (!name) return
@@ -291,6 +310,15 @@ export default function CommissionerApp() {
                 {espnLoading === 'sync' ? 'Syncing…' : 'Sync Results'}
               </button>
             </div>
+
+            <button
+              onClick={refreshInsights}
+              disabled={!!espnLoading || games.length === 0}
+              className="py-3 rounded-xl font-bold uppercase tracking-widest text-sm outline-none active:scale-95 transition-all disabled:opacity-50"
+              style={{ fontFamily: 'var(--font-barlow-condensed)', background: '#1a2540', color: '#fff', border: '1px solid rgba(255,255,255,0.1)' }}
+            >
+              {espnLoading === 'insights' ? 'Refreshing…' : 'Refresh Odds & Insights'}
+            </button>
 
             {espnStatus && (
               <p

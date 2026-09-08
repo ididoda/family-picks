@@ -13,6 +13,7 @@ import PickPanel from './PickPanel'
 
 type Tab = 'home' | 'weekly' | 'season'
 type Player = { id: string; name: string }
+type CurrentPlayer = Player & { is_commissioner: boolean }
 type Game = { id: string; away_team: string; home_team: string; kickoff_time: string; status: string }
 type Pick = { player_id: string; game_id: string; picked_team: string }
 type Week = { id: string; week_number: number; status: string }
@@ -20,7 +21,7 @@ type Week = { id: string; week_number: number; status: string }
 export default function HomeApp() {
   const router = useRouter()
   const [tab, setTab] = useState<Tab>('home')
-  const [currentPlayer, setCurrentPlayer] = useState<Player | null>(null)
+  const [currentPlayer, setCurrentPlayer] = useState<CurrentPlayer | null>(null)
   const [players, setPlayers] = useState<Player[]>([])
   const [week, setWeek] = useState<Week | null>(null)
   const [games, setGames] = useState<Game[]>([])
@@ -37,7 +38,7 @@ export default function HomeApp() {
     async function load(playerId: string) {
       const [{ data: allPlayers }, { data: player }, { data: activeSeason }] = await Promise.all([
         supabase.from('players').select('id, name').eq('is_active', true).order('created_at').order('name'),
-        supabase.from('players').select('id, name').eq('id', playerId).single(),
+        supabase.from('players').select('id, name, is_commissioner').eq('id', playerId).single(),
         supabase.from('seasons').select('id').eq('is_active', true).single(),
       ])
 
@@ -137,7 +138,11 @@ export default function HomeApp() {
 
   return (
     <div className="flex flex-col h-full">
-      <Header playerName={currentPlayer.name} onPlayerClick={handlePlayerClick} />
+      <Header
+        playerName={currentPlayer.name}
+        isCommissioner={currentPlayer.is_commissioner}
+        onPlayerClick={handlePlayerClick}
+      />
 
       <main className="flex flex-col flex-1 overflow-y-auto">
         {tab === 'home' && (
