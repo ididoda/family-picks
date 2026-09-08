@@ -38,9 +38,11 @@ export default function CommissionerApp() {
     setPlayers(allPlayers ?? [])
     setWeeks(allWeeks ?? [])
 
-    const latest = (allWeeks ?? []).at(-1) ?? null
-    setCurrentWeek(latest)
-    if (latest) loadWeekData(latest.id)
+    // Default to the current week: earliest not yet complete, else the last one
+    const weeksList = allWeeks ?? []
+    const current = weeksList.find((w) => w.status !== 'complete') ?? weeksList.at(-1) ?? null
+    setCurrentWeek(current)
+    if (current) loadWeekData(current.id)
   }
 
   async function loadWeekData(weekId: string) {

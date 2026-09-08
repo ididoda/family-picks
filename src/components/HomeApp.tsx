@@ -52,13 +52,28 @@ export default function HomeApp() {
 
       if (!activeSeason) return
 
-      const { data: currentWeek } = await supabase
+      // Current week = earliest week not yet complete; if the season is over,
+      // fall back to the last week.
+      const { data: openWeek } = await supabase
         .from('weeks')
         .select('id, week_number, status')
         .eq('season_id', activeSeason.id)
-        .order('week_number', { ascending: false })
+        .neq('status', 'complete')
+        .order('week_number', { ascending: true })
         .limit(1)
-        .single()
+        .maybeSingle()
+
+      let currentWeek = openWeek
+      if (!currentWeek) {
+        const { data: lastWeek } = await supabase
+          .from('weeks')
+          .select('id, week_number, status')
+          .eq('season_id', activeSeason.id)
+          .order('week_number', { ascending: false })
+          .limit(1)
+          .maybeSingle()
+        currentWeek = lastWeek
+      }
 
       if (!currentWeek) return
       setWeek(currentWeek)
