@@ -8,7 +8,8 @@ create table players (
   pin_hash text,
   pin_set_at timestamptz,
   pin_attempts integer not null default 0,
-  locked_until timestamptz
+  locked_until timestamptz,
+  is_commissioner boolean not null default false
 );
 
 insert into players (name) values
@@ -56,6 +57,13 @@ create table picks (
   unique (player_id, game_id)
 );
 
+-- Per-game insight blob (odds, records, form, head-to-head)
+create table game_insights (
+  game_id uuid primary key references games(id) on delete cascade,
+  data jsonb not null default '{}'::jsonb,
+  updated_at timestamptz not null default now()
+);
+
 -- Indexes
 create index on games(week_id);
 create index on picks(player_id);
@@ -67,16 +75,18 @@ alter table seasons enable row level security;
 alter table weeks enable row level security;
 alter table games enable row level security;
 alter table picks enable row level security;
+alter table game_insights enable row level security;
 
 create policy "public read" on players for select using (true);
 -- but only expose the safe columns to the public API (service-role bypasses this).
 -- table-level SELECT must be dropped first or column grants are ignored.
 revoke select on players from anon, authenticated;
-grant select (id, name, is_active, created_at) on players to anon, authenticated;
+grant select (id, name, is_active, created_at, is_commissioner) on players to anon, authenticated;
 create policy "public read" on seasons for select using (true);
 create policy "public read" on weeks for select using (true);
 create policy "public read" on games for select using (true);
 create policy "public read" on picks for select using (true);
+create policy "public read" on game_insights for select using (true);
 create policy "public insert" on picks for insert with check (true);
 -- players may change a pick before kickoff; the upsert in PickPanel needs UPDATE
 create policy "public update" on picks for update using (true) with check (true);
