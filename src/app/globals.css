@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+:root {
+  --red: #C8102E;
+  --navy: #0f1729;
+  --navy-light: #1a2540;
+  --gold: #d4af37;
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  height: 100%;
+  background: var(--navy);
+  color: #fff;
+  font-family: var(--font-barlow), sans-serif;
+  overflow-x: hidden;
+}
