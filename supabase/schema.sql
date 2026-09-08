@@ -3,7 +3,12 @@ create table players (
   id uuid primary key default gen_random_uuid(),
   name text not null,
   is_active boolean not null default true,
-  created_at timestamptz not null default now()
+  created_at timestamptz not null default now(),
+  -- light PIN auth: hash is server-only, never exposed to the anon API
+  pin_hash text,
+  pin_set_at timestamptz,
+  pin_attempts integer not null default 0,
+  locked_until timestamptz
 );
 
 insert into players (name) values
@@ -64,6 +69,10 @@ alter table games enable row level security;
 alter table picks enable row level security;
 
 create policy "public read" on players for select using (true);
+-- but only expose the safe columns to the public API (service-role bypasses this).
+-- table-level SELECT must be dropped first or column grants are ignored.
+revoke select on players from anon, authenticated;
+grant select (id, name, is_active, created_at) on players to anon, authenticated;
 create policy "public read" on seasons for select using (true);
 create policy "public read" on weeks for select using (true);
 create policy "public read" on games for select using (true);
@@ -71,3 +80,8 @@ create policy "public read" on picks for select using (true);
 create policy "public insert" on picks for insert with check (true);
 -- players may change a pick before kickoff; the upsert in PickPanel needs UPDATE
 create policy "public update" on picks for update using (true) with check (true);
+
+-- commissioner UI writes these straight from the client (PIN-gated in-app)
+create policy "public update" on games for update using (true) with check (true);
+create policy "public insert" on weeks for insert with check (true);
+create policy "public update" on weeks for update using (true) with check (true);

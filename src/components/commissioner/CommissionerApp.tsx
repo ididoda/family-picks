@@ -4,11 +4,11 @@ import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/supabase'
 import { getTeam } from '@/lib/teams'
 
-type Player = { id: string; name: string; is_active: boolean }
+type Player = { id: string; name: string; is_active: boolean; hasPin: boolean; locked: boolean }
 type Game = { id: string; away_team: string; home_team: string; kickoff_time: string; status: string; winning_team: string | null }
 type Week = { id: string; week_number: number; status: string; season_id: string }
 type Pick = { player_id: string; game_id: string; picked_team: string; submitted_at: string }
-type Section = 'results' | 'weeks' | 'players' | 'submissions'
+type Section = 'results' | 'weeks' | 'players' | 'picks' | 'submissions'
 
 export default function CommissionerApp() {
   const [section, setSection] = useState<Section>('results')
@@ -23,19 +23,31 @@ export default function CommissionerApp() {
   const [espnStatus, setEspnStatus] = useState<string | null>(null)
   const [espnLoading, setEspnLoading] = useState<'fetch' | 'sync' | null>(null)
 
+  // Manual pick entry
+  const [entryWeekId, setEntryWeekId] = useState<string | null>(null)
+  const [entryPlayerId, setEntryPlayerId] = useState<string | null>(null)
+  const [entryGames, setEntryGames] = useState<Game[]>([])
+  const [entryPicks, setEntryPicks] = useState<Record<string, string>>({})
+  const [entrySaving, setEntrySaving] = useState<string | null>(null)
+
   useEffect(() => { loadAll() }, [])
+
+  async function loadPlayers() {
+    const res = await fetch('/api/commissioner/players')
+    const data = await res.json()
+    if (Array.isArray(data)) setPlayers(data)
+  }
 
   async function loadAll() {
     const { data: season } = await supabase.from('seasons').select('id').eq('is_active', true).single()
     if (!season) return
     setSeasonId(season.id)
 
-    const [{ data: allPlayers }, { data: allWeeks }] = await Promise.all([
-      supabase.from('players').select('id, name, is_active').order('created_at'),
+    const [, { data: allWeeks }] = await Promise.all([
+      loadPlayers(),
       supabase.from('weeks').select('id, week_number, status, season_id').eq('season_id', season.id).order('week_number'),
     ])
 
-    setPlayers(allPlayers ?? [])
     setWeeks(allWeeks ?? [])
 
     // Default to the current week: earliest not yet complete, else the last one
@@ -89,9 +101,31 @@ export default function CommissionerApp() {
     setWeeks((prev) => prev.map((w) => w.id === currentWeek.id ? { ...w, status: 'complete' } : w))
   }
 
+  async function playerAction(body: Record<string, unknown>) {
+    const res = await fetch('/api/commissioner/players', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    })
+    await loadPlayers()
+    return res.ok
+  }
+
   async function togglePlayer(player: Player) {
-    await supabase.from('players').update({ is_active: !player.is_active }).eq('id', player.id)
     setPlayers((prev) => prev.map((p) => p.id === player.id ? { ...p, is_active: !p.is_active } : p))
+    await playerAction({ action: 'toggle', playerId: player.id })
+  }
+
+  const [confirmResetId, setConfirmResetId] = useState<string | null>(null)
+
+  async function resetPin(player: Player) {
+    if (confirmResetId !== player.id) {
+      setConfirmResetId(player.id)
+      return
+    }
+    setConfirmResetId(null)
+    setPlayers((prev) => prev.map((p) => p.id === player.id ? { ...p, hasPin: false, locked: false } : p))
+    await playerAction({ action: 'reset-pin', playerId: player.id })
   }
 
   async function fetchSchedule() {
@@ -137,14 +171,63 @@ export default function CommissionerApp() {
   async function addPlayer() {
     const name = newPlayerName.trim()
     if (!name) return
-    const { data } = await supabase.from('players').insert({ name }).select().single()
-    if (data) { setPlayers((prev) => [...prev, data]); setNewPlayerName('') }
+    setNewPlayerName('')
+    await playerAction({ action: 'add', name })
+  }
+
+  // --- Manual pick entry ---
+  async function loadEntry(weekId: string, playerId: string) {
+    const { data: weekGames } = await supabase
+      .from('games').select('id, away_team, home_team, kickoff_time, status, winning_team')
+      .eq('week_id', weekId).order('kickoff_time')
+    setEntryGames(weekGames ?? [])
+
+    const ids = (weekGames ?? []).map((g) => g.id)
+    if (!ids.length) { setEntryPicks({}); return }
+    const { data: rows } = await supabase
+      .from('picks').select('game_id, picked_team').eq('player_id', playerId).in('game_id', ids)
+    const map: Record<string, string> = {}
+    for (const r of rows ?? []) map[r.game_id] = r.picked_team
+    setEntryPicks(map)
+  }
+
+  function selectEntryWeek(weekId: string) {
+    setEntryWeekId(weekId)
+    if (entryPlayerId) loadEntry(weekId, entryPlayerId)
+    else { setEntryGames([]); setEntryPicks({}) }
+  }
+
+  function selectEntryPlayer(playerId: string) {
+    setEntryPlayerId(playerId)
+    if (entryWeekId) loadEntry(entryWeekId, playerId)
+  }
+
+  async function setEntryPick(gameId: string, team: string) {
+    if (!entryPlayerId) return
+    setEntrySaving(gameId)
+    const current = entryPicks[gameId]
+    const clear = current === team // tap the current pick to clear it
+
+    setEntryPicks((prev) => {
+      const n = { ...prev }
+      if (clear) delete n[gameId]
+      else n[gameId] = team
+      return n
+    })
+
+    await fetch('/api/commissioner/pick', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ playerId: entryPlayerId, gameId, team: clear ? null : team }),
+    })
+    setEntrySaving(null)
   }
 
   const sections: { id: Section; label: string }[] = [
     { id: 'results', label: 'Results' },
     { id: 'weeks', label: 'Weeks' },
     { id: 'players', label: 'Players' },
+    { id: 'picks', label: 'Enter Picks' },
     { id: 'submissions', label: 'Submissions' },
   ]
 
@@ -312,25 +395,52 @@ export default function CommissionerApp() {
             <div className="rounded-xl overflow-hidden" style={{ background: '#1a2540' }}>
               <div className="divide-y" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
                 {players.map((player) => (
-                  <div key={player.id} className="flex items-center justify-between px-4 py-3">
-                    <span
-                      className="font-semibold uppercase tracking-wide text-sm"
-                      style={{ fontFamily: 'var(--font-barlow-condensed)', color: player.is_active ? '#fff' : 'rgba(255,255,255,0.3)' }}
-                    >
-                      {player.name}
-                    </span>
-                    <button
-                      onClick={() => togglePlayer(player)}
-                      className="text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-full outline-none transition-all active:scale-95"
-                      style={{
-                        fontFamily: 'var(--font-barlow-condensed)',
-                        background: player.is_active ? 'rgba(74,222,128,0.1)' : 'rgba(255,255,255,0.06)',
-                        color: player.is_active ? '#4ade80' : 'rgba(255,255,255,0.3)',
-                        border: `1px solid ${player.is_active ? 'rgba(74,222,128,0.3)' : 'rgba(255,255,255,0.1)'}`,
-                      }}
-                    >
-                      {player.is_active ? 'Active' : 'Inactive'}
-                    </button>
+                  <div key={player.id} className="flex items-center justify-between px-4 py-3 gap-2">
+                    <div className="flex flex-col min-w-0">
+                      <span
+                        className="font-semibold uppercase tracking-wide text-sm truncate"
+                        style={{ fontFamily: 'var(--font-barlow-condensed)', color: player.is_active ? '#fff' : 'rgba(255,255,255,0.3)' }}
+                      >
+                        {player.name}
+                      </span>
+                      <span
+                        className="text-[0.6rem] uppercase tracking-widest"
+                        style={{
+                          fontFamily: 'var(--font-barlow-condensed)',
+                          color: player.locked ? '#C8102E' : player.hasPin ? 'rgba(74,222,128,0.7)' : 'rgba(255,255,255,0.3)',
+                        }}
+                      >
+                        {player.locked ? 'PIN locked' : player.hasPin ? 'PIN set' : 'no PIN yet'}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2 flex-shrink-0">
+                      {(player.hasPin || player.locked) && (
+                        <button
+                          onClick={() => resetPin(player)}
+                          className="text-[0.6rem] font-bold uppercase tracking-widest px-2.5 py-1.5 rounded-full outline-none transition-all active:scale-95"
+                          style={{
+                            fontFamily: 'var(--font-barlow-condensed)',
+                            background: confirmResetId === player.id ? '#C8102E' : 'rgba(255,255,255,0.06)',
+                            color: confirmResetId === player.id ? '#fff' : 'rgba(255,255,255,0.5)',
+                            border: '1px solid rgba(255,255,255,0.1)',
+                          }}
+                        >
+                          {confirmResetId === player.id ? 'Confirm' : 'Reset PIN'}
+                        </button>
+                      )}
+                      <button
+                        onClick={() => togglePlayer(player)}
+                        className="text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-full outline-none transition-all active:scale-95"
+                        style={{
+                          fontFamily: 'var(--font-barlow-condensed)',
+                          background: player.is_active ? 'rgba(74,222,128,0.1)' : 'rgba(255,255,255,0.06)',
+                          color: player.is_active ? '#4ade80' : 'rgba(255,255,255,0.3)',
+                          border: `1px solid ${player.is_active ? 'rgba(74,222,128,0.3)' : 'rgba(255,255,255,0.1)'}`,
+                        }}
+                      >
+                        {player.is_active ? 'Active' : 'Inactive'}
+                      </button>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -354,6 +464,81 @@ export default function CommissionerApp() {
                 Add
               </button>
             </div>
+          </div>
+        )}
+
+        {/* ENTER PICKS (manual) */}
+        {section === 'picks' && (
+          <div className="flex flex-col gap-3">
+            <p className="text-xs uppercase tracking-widest font-semibold" style={{ fontFamily: 'var(--font-barlow-condensed)', color: 'rgba(255,255,255,0.3)' }}>
+              Enter or override a player&apos;s picks · works after kickoff
+            </p>
+
+            <div className="flex gap-2">
+              <select
+                value={entryWeekId ?? ''}
+                onChange={(e) => selectEntryWeek(e.target.value)}
+                className="flex-1 px-3 py-2.5 rounded-xl text-sm outline-none"
+                style={{ background: '#1a2540', color: '#fff', border: '1px solid rgba(255,255,255,0.1)', fontFamily: 'var(--font-barlow-condensed)' }}
+              >
+                <option value="">Week…</option>
+                {weeks.map((w) => (
+                  <option key={w.id} value={w.id}>Week {w.week_number}</option>
+                ))}
+              </select>
+              <select
+                value={entryPlayerId ?? ''}
+                onChange={(e) => selectEntryPlayer(e.target.value)}
+                className="flex-1 px-3 py-2.5 rounded-xl text-sm outline-none"
+                style={{ background: '#1a2540', color: '#fff', border: '1px solid rgba(255,255,255,0.1)', fontFamily: 'var(--font-barlow-condensed)' }}
+              >
+                <option value="">Player…</option>
+                {players.filter((p) => p.is_active).map((p) => (
+                  <option key={p.id} value={p.id}>{p.name}</option>
+                ))}
+              </select>
+            </div>
+
+            {entryWeekId && entryPlayerId && (
+              <p className="text-xs" style={{ fontFamily: 'var(--font-barlow-condensed)', color: 'rgba(255,255,255,0.4)' }}>
+                {Object.keys(entryPicks).length}/{entryGames.length} picked · tap a team to set, tap it again to clear
+              </p>
+            )}
+
+            {entryWeekId && entryPlayerId && entryGames.map((game) => {
+              const picked = entryPicks[game.id]
+              return (
+                <div key={game.id} className="rounded-xl overflow-hidden" style={{ border: '1px solid rgba(255,255,255,0.06)' }}>
+                  <div className="flex">
+                    {[game.away_team, game.home_team].map((team, i) => {
+                      const isSel = picked === team
+                      const isOther = picked && picked !== team
+                      return (
+                        <button
+                          key={team}
+                          onClick={() => setEntryPick(game.id, team)}
+                          disabled={entrySaving === game.id}
+                          className="flex-1 flex flex-col items-center py-3 gap-0.5 transition-all active:scale-95 outline-none"
+                          style={{
+                            background: isSel ? '#C8102E' : isOther ? '#111827' : '#1a2540',
+                            borderRight: i === 0 ? '1px solid rgba(255,255,255,0.06)' : 'none',
+                            opacity: isOther ? 0.4 : 1,
+                          }}
+                        >
+                          <span className="text-xl font-extrabold" style={{ fontFamily: 'var(--font-barlow-condensed)', color: '#fff' }}>{team}</span>
+                          <span className="text-xs" style={{ fontFamily: 'var(--font-barlow-condensed)', color: 'rgba(255,255,255,0.5)' }}>{getTeam(team).name}</span>
+                          <span className="text-xs" style={{ fontFamily: 'var(--font-barlow-condensed)', color: 'rgba(255,255,255,0.25)', fontSize: '0.6rem' }}>{i === 0 ? 'AWAY' : 'HOME'}</span>
+                        </button>
+                      )
+                    })}
+                  </div>
+                </div>
+              )
+            })}
+
+            {entryWeekId && entryPlayerId && entryGames.length === 0 && (
+              <p style={{ color: 'rgba(255,255,255,0.3)', fontFamily: 'var(--font-barlow-condensed)' }}>No games in this week.</p>
+            )}
           </div>
         )}
 

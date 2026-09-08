@@ -4,9 +4,21 @@ export interface Database {
   public: {
     Tables: {
       players: {
-        Row: { id: string; name: string; is_active: boolean; created_at: string }
-        Insert: { id?: string; name: string; is_active?: boolean; created_at?: string }
-        Update: { id?: string; name?: string; is_active?: boolean; created_at?: string }
+        Row: {
+          id: string; name: string; is_active: boolean; created_at: string
+          pin_hash: string | null; pin_set_at: string | null
+          pin_attempts: number; locked_until: string | null
+        }
+        Insert: {
+          id?: string; name: string; is_active?: boolean; created_at?: string
+          pin_hash?: string | null; pin_set_at?: string | null
+          pin_attempts?: number; locked_until?: string | null
+        }
+        Update: {
+          id?: string; name?: string; is_active?: boolean; created_at?: string
+          pin_hash?: string | null; pin_set_at?: string | null
+          pin_attempts?: number; locked_until?: string | null
+        }
         Relationships: []
       }
       seasons: {

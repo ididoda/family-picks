@@ -38,13 +38,15 @@ export default function WeeklyTab({ players, currentPlayerId }: Props) {
         .order('week_number')
 
       const allWeeks = data ?? []
-      setWeeks(allWeeks)
 
-      // Default to the current week: earliest not yet complete, else the last one
-      if (allWeeks.length) {
-        const firstOpen = allWeeks.findIndex((w) => w.status !== 'complete')
-        setWeekIndex(firstOpen === -1 ? allWeeks.length - 1 : firstOpen)
-      }
+      // Players only see up to the current week (earliest not complete, else last).
+      // Future weeks stay hidden until they're live.
+      const firstOpen = allWeeks.findIndex((w) => w.status !== 'complete')
+      const currentIdx = firstOpen === -1 ? allWeeks.length - 1 : firstOpen
+      const visibleWeeks = allWeeks.slice(0, currentIdx + 1)
+
+      setWeeks(visibleWeeks)
+      if (visibleWeeks.length) setWeekIndex(visibleWeeks.length - 1)
     }
 
     loadWeeks()

@@ -36,7 +36,7 @@ export default function HomeApp() {
 
     async function load(playerId: string) {
       const [{ data: allPlayers }, { data: player }, { data: activeSeason }] = await Promise.all([
-        supabase.from('players').select('id, name').eq('is_active', true).order('created_at'),
+        supabase.from('players').select('id, name').eq('is_active', true).order('created_at').order('name'),
         supabase.from('players').select('id, name').eq('id', playerId).single(),
         supabase.from('seasons').select('id').eq('is_active', true).single(),
       ])
