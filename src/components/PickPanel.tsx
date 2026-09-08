@@ -252,6 +252,13 @@ export default function PickPanel({
           </div>
         )}
 
+        <p
+          className="flex-shrink-0 px-4 py-2 text-center text-xs"
+          style={{ fontFamily: 'var(--font-barlow-condensed)', color: 'rgba(255,255,255,0.35)' }}
+        >
+          Picks save as you go — come back any time before each game kicks off.
+        </p>
+
         {/* Game list */}
         <div className="overflow-y-auto flex-1 pb-6">
           {slots.map((slot) => (

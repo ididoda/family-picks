@@ -102,6 +102,21 @@ export interface Database {
           },
         ]
       }
+      pick_audit: {
+        Row: {
+          id: number; action: string; player_id: string | null
+          game_id: string | null; picked_team: string | null; changed_at: string
+        }
+        Insert: {
+          id?: number; action: string; player_id?: string | null
+          game_id?: string | null; picked_team?: string | null; changed_at?: string
+        }
+        Update: {
+          id?: number; action?: string; player_id?: string | null
+          game_id?: string | null; picked_team?: string | null; changed_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: Record<string, never>
     Functions: Record<string, never>
