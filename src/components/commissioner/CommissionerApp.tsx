@@ -3,12 +3,13 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/supabase'
 import { getTeam } from '@/lib/teams'
+import { getStoredPlayerId } from '@/lib/player'
 
 type Player = { id: string; name: string; is_active: boolean; hasPin: boolean; locked: boolean }
 type Game = { id: string; away_team: string; home_team: string; kickoff_time: string; status: string; winning_team: string | null }
 type Week = { id: string; week_number: number; status: string; season_id: string }
 type Pick = { player_id: string; game_id: string; picked_team: string; submitted_at: string }
-type Section = 'results' | 'weeks' | 'players' | 'picks' | 'submissions'
+type Section = 'results' | 'weeks' | 'players' | 'picks' | 'submissions' | 'backup'
 
 export default function CommissionerApp() {
   const [section, setSection] = useState<Section>('results')
@@ -242,12 +243,33 @@ export default function CommissionerApp() {
     setEntrySaving(null)
   }
 
+  async function downloadCsv() {
+    const playerId = getStoredPlayerId()
+    if (!playerId) return
+    const res = await fetch('/api/commissioner/export', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ playerId }),
+    })
+    if (!res.ok) return
+    const blob = await res.blob()
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `family-picks-${new Date().toISOString().slice(0, 10)}.csv`
+    document.body.appendChild(a)
+    a.click()
+    a.remove()
+    URL.revokeObjectURL(url)
+  }
+
   const sections: { id: Section; label: string }[] = [
     { id: 'results', label: 'Results' },
     { id: 'weeks', label: 'Weeks' },
     { id: 'players', label: 'Players' },
     { id: 'picks', label: 'Enter Picks' },
     { id: 'submissions', label: 'Submissions' },
+    { id: 'backup', label: 'Backup' },
   ]
 
   return (
@@ -605,6 +627,50 @@ export default function CommissionerApp() {
                 })}
               </div>
             </div>
+          </div>
+        )}
+
+        {/* BACKUP */}
+        {section === 'backup' && (
+          <div className="flex flex-col gap-3">
+            <p className="text-xs uppercase tracking-widest font-semibold" style={{ fontFamily: 'var(--font-barlow-condensed)', color: 'rgba(255,255,255,0.3)' }}>
+              Fail-safe records
+            </p>
+
+            <button
+              onClick={downloadCsv}
+              className="py-3 rounded-xl font-bold uppercase tracking-widest text-sm outline-none active:scale-95 transition-all"
+              style={{ fontFamily: 'var(--font-barlow-condensed)', background: '#1a2540', color: '#fff', border: '1px solid rgba(255,255,255,0.1)' }}
+            >
+              Download all picks (CSV)
+            </button>
+
+            <p className="text-xs uppercase tracking-widest font-semibold pt-2" style={{ fontFamily: 'var(--font-barlow-condensed)', color: 'rgba(255,255,255,0.3)' }}>
+              Printable week summary (PDF)
+            </p>
+            <div className="flex flex-col gap-2">
+              {weeks.map((w) => (
+                <a
+                  key={w.id}
+                  href={`/commissioner/print?week=${w.id}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-between rounded-xl px-4 py-3"
+                  style={{ background: '#1a2540', border: '1px solid rgba(255,255,255,0.1)' }}
+                >
+                  <span className="font-bold uppercase tracking-wide text-sm" style={{ fontFamily: 'var(--font-barlow-condensed)', color: '#fff' }}>
+                    Week {w.week_number}
+                  </span>
+                  <span className="text-xs uppercase tracking-widest" style={{ fontFamily: 'var(--font-barlow-condensed)', color: 'rgba(255,255,255,0.4)' }}>
+                    open ↗
+                  </span>
+                </a>
+              ))}
+            </div>
+
+            <p className="text-xs pt-1" style={{ fontFamily: 'var(--font-barlow-condensed)', color: 'rgba(255,255,255,0.3)' }}>
+              Every pick change is also logged automatically to an append-only audit table.
+            </p>
           </div>
         )}
 

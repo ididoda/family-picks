@@ -64,6 +64,34 @@ create table game_insights (
   updated_at timestamptz not null default now()
 );
 
+-- Append-only audit log of every pick change (written by a trigger)
+create table pick_audit (
+  id bigint generated always as identity primary key,
+  action text not null, -- INSERT | UPDATE | DELETE
+  player_id uuid,
+  game_id uuid,
+  picked_team text,
+  changed_at timestamptz not null default now()
+);
+
+create or replace function log_pick_change() returns trigger
+language plpgsql security definer as $$
+begin
+  if (tg_op = 'DELETE') then
+    insert into pick_audit (action, player_id, game_id, picked_team)
+    values ('DELETE', old.player_id, old.game_id, old.picked_team);
+    return old;
+  else
+    insert into pick_audit (action, player_id, game_id, picked_team)
+    values (tg_op, new.player_id, new.game_id, new.picked_team);
+    return new;
+  end if;
+end $$;
+
+create trigger picks_audit
+  after insert or update or delete on picks
+  for each row execute function log_pick_change();
+
 -- Indexes
 create index on games(week_id);
 create index on picks(player_id);
@@ -76,6 +104,7 @@ alter table weeks enable row level security;
 alter table games enable row level security;
 alter table picks enable row level security;
 alter table game_insights enable row level security;
+alter table pick_audit enable row level security;
 
 create policy "public read" on players for select using (true);
 -- but only expose the safe columns to the public API (service-role bypasses this).
