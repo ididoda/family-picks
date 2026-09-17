@@ -6,7 +6,7 @@ import { getTeam } from '@/lib/teams'
 import type { GameInsight } from '@/lib/insight-types'
 
 function GameDetail({ away, home, insight }: { away: string; home: string; insight: GameInsight }) {
-  const { odds, h2h } = insight
+  const { odds } = insight
   const line = odds?.spreadFavorite && odds.spreadLine != null
     ? `${odds.spreadFavorite} ${odds.spreadLine}`
     : null
@@ -51,15 +51,8 @@ function GameDetail({ away, home, insight }: { away: string; home: string; insig
       }}
     >
       {row('Spread', line ? `${line}${odds?.book ? ` (${odds.book})` : ''}` : 'not posted')}
-      {row('Over/Under', odds?.total != null ? String(odds.total) : 'not posted')}
       {teamBlock(away, insight.away)}
       {teamBlock(home, insight.home)}
-      {row(
-        'Head-to-head',
-        h2h.length
-          ? `${h2h[0].winner} won W${h2h[0].week}${h2h.length > 1 ? ` (+${h2h.length - 1})` : ''}`
-          : 'no prior meeting'
-      )}
     </div>
   )
 }
