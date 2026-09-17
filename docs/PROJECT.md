@@ -151,8 +151,9 @@ Reach it via the ⚙ in the header (Ryan only).
 - **Home** — current week banner, "Make Picks" (X/16), submission strip (who's in).
 - **Pick panel** — games grouped by time slot; per-kickoff locking; saves per tap
   (partial submission is fine — pick Thursday now, the rest later); optimistic
-  save with rollback + error banner; **Details ▾** per game (spread, O/U, each
-  team's record + last-5, head-to-head).
+  save with rollback + error banner; insights always shown per game (no
+  dropdown) — spread, O/U, each team's record, last-5, offense/defense PPG,
+  head-to-head.
 - **Weekly** — week **dropdown**; score shown **next to each name** on the left;
   your own picks always visible, everyone else's hidden per-game until that game
   kicks off; weekly-winner banner when complete.

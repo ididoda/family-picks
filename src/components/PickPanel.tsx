@@ -18,8 +18,28 @@ function GameDetail({ away, home, insight }: { away: string; home: string; insig
     </div>
   )
 
-  const form = (f: GameInsight['away']) =>
-    `${f.record.w}-${f.record.l}${f.last5.length ? ` · ${f.last5.join(' ')}` : ''}`
+  const ppg = (v: number | null) => (v != null ? v.toFixed(1) : '—')
+
+  const last5 = (f: GameInsight['away']) => {
+    if (!f.last5.length) return '—'
+    const w = f.last5.filter((r) => r === 'W').length
+    return `${w}-${f.last5.length - w} (${f.last5.join(' ')})`
+  }
+
+  const teamBlock = (label: string, f: GameInsight['away']) => (
+    <div className="pt-1.5">
+      <div
+        className="pb-0.5 text-xs font-semibold uppercase tracking-widest"
+        style={{ color: 'rgba(255,255,255,0.5)' }}
+      >
+        {label}
+      </div>
+      {row('Record', `${f.record.w}-${f.record.l}`)}
+      {row('Last 5', last5(f))}
+      {row('Offense PPG', ppg(f.ppgFor))}
+      {row('Defense PPG', ppg(f.ppgAgainst))}
+    </div>
+  )
 
   return (
     <div
@@ -32,8 +52,8 @@ function GameDetail({ away, home, insight }: { away: string; home: string; insig
     >
       {row('Spread', line ? `${line}${odds?.book ? ` (${odds.book})` : ''}` : 'not posted')}
       {row('Over/Under', odds?.total != null ? String(odds.total) : 'not posted')}
-      {row(away, form(insight.away))}
-      {row(home, form(insight.home))}
+      {teamBlock(away, insight.away)}
+      {teamBlock(home, insight.home)}
       {row(
         'Head-to-head',
         h2h.length
@@ -98,7 +118,6 @@ export default function PickPanel({
   const [saving, setSaving] = useState<string | null>(null)
   const [saveError, setSaveError] = useState<string | null>(null)
   const [insights, setInsights] = useState<Record<string, GameInsight>>({})
-  const [expanded, setExpanded] = useState<string | null>(null)
   const sheetRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -342,26 +361,11 @@ export default function PickPanel({
                       </div>
 
                       {insights[game.id] && (
-                        <>
-                          <button
-                            onClick={() => setExpanded(expanded === game.id ? null : game.id)}
-                            className="w-full text-center py-1.5 text-xs font-semibold uppercase tracking-widest outline-none active:opacity-60"
-                            style={{
-                              fontFamily: 'var(--font-barlow-condensed)',
-                              background: 'rgba(255,255,255,0.03)',
-                              color: 'rgba(255,255,255,0.35)',
-                            }}
-                          >
-                            {expanded === game.id ? 'Hide details ▲' : 'Details ▾'}
-                          </button>
-                          {expanded === game.id && (
-                            <GameDetail
-                              away={game.away_team}
-                              home={game.home_team}
-                              insight={insights[game.id]}
-                            />
-                          )}
-                        </>
+                        <GameDetail
+                          away={game.away_team}
+                          home={game.home_team}
+                          insight={insights[game.id]}
+                        />
                       )}
 
                       {locked && (

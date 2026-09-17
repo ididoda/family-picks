@@ -10,6 +10,8 @@ export type { TeamForm, GameInsight }
 type FinalGame = {
   away_team: string
   home_team: string
+  away_score: number | null
+  home_score: number | null
   winning_team: string | null
   kickoff_time: string
   week: { week_number: number } | null
@@ -22,14 +24,31 @@ function formFor(team: string, finals: FinalGame[]): TeamForm {
 
   let w = 0
   let l = 0
+  let pointsFor = 0
+  let pointsAgainst = 0
+  let scored = 0
   const last5: ('W' | 'L')[] = []
   for (const g of played) {
     const won = g.winning_team === team
     if (won) w++
     else l++
     if (last5.length < 5) last5.push(won ? 'W' : 'L')
+
+    const isAway = g.away_team === team
+    const forScore = isAway ? g.away_score : g.home_score
+    const againstScore = isAway ? g.home_score : g.away_score
+    if (forScore != null && againstScore != null) {
+      pointsFor += forScore
+      pointsAgainst += againstScore
+      scored++
+    }
   }
-  return { record: { w, l }, last5 }
+  return {
+    record: { w, l },
+    last5,
+    ppgFor: scored ? Math.round((pointsFor / scored) * 10) / 10 : null,
+    ppgAgainst: scored ? Math.round((pointsAgainst / scored) * 10) / 10 : null,
+  }
 }
 
 // Build the insight blob for every game in a week.
@@ -54,7 +73,7 @@ export async function buildWeekInsights(
   const { data: finalsRaw } = weekIds.length
     ? await supabase
         .from('games')
-        .select('away_team, home_team, winning_team, kickoff_time, week:weeks(week_number)')
+        .select('away_team, home_team, away_score, home_score, winning_team, kickoff_time, week:weeks(week_number)')
         .in('week_id', weekIds)
         .eq('status', 'final')
     : { data: [] }

@@ -10,6 +10,8 @@ export type GameOdds = {
 export type TeamForm = {
   record: { w: number; l: number }
   last5: ('W' | 'L')[] // most recent first
+  ppgFor: number | null // offense: points scored per game
+  ppgAgainst: number | null // defense: points allowed per game
 }
 
 export type GameInsight = {
