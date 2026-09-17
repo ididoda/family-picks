@@ -27,7 +27,7 @@ function GameDetail({ away, home, insight }: { away: string; home: string; insig
   }
 
   const teamBlock = (label: string, f: GameInsight['away']) => (
-    <div className="pt-1.5">
+    <div>
       <div
         className="pb-0.5 text-xs font-semibold uppercase tracking-widest"
         style={{ color: 'rgba(255,255,255,0.5)' }}
@@ -36,23 +36,31 @@ function GameDetail({ away, home, insight }: { away: string; home: string; insig
       </div>
       {row('Record', `${f.record.w}-${f.record.l}`)}
       {row('Last 5', last5(f))}
-      {row('Offense PPG', ppg(f.ppgFor))}
-      {row('Defense PPG', ppg(f.ppgAgainst))}
+      {row('Off PPG', ppg(f.ppgFor))}
+      {row('Def PPG', ppg(f.ppgAgainst))}
     </div>
   )
 
   return (
     <div
-      className="px-4 py-3 text-xs"
+      className="text-xs"
       style={{
         fontFamily: 'var(--font-barlow-condensed)',
         background: 'rgba(255,255,255,0.02)',
         borderTop: '1px solid rgba(255,255,255,0.06)',
       }}
     >
-      {row('Spread', line ? `${line}${odds?.book ? ` (${odds.book})` : ''}` : 'not posted')}
-      {teamBlock(away, insight.away)}
-      {teamBlock(home, insight.home)}
+      <div className="px-4 pt-3 pb-1.5">
+        {row('Spread', line ? `${line}${odds?.book ? ` (${odds.book})` : ''}` : 'not posted')}
+      </div>
+      <div className="flex pt-1.5 pb-3" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+        <div className="flex-1 px-4" style={{ borderRight: '1px solid rgba(255,255,255,0.06)' }}>
+          {teamBlock(away, insight.away)}
+        </div>
+        <div className="flex-1 px-4">
+          {teamBlock(home, insight.home)}
+        </div>
+      </div>
     </div>
   )
 }
